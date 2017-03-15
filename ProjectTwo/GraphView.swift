@@ -9,32 +9,32 @@
 import UIKit
 import CoreGraphics
 
+
+
 class GraphView: UIView {
-    
     struct graph {
-        var lineColor = UIColor(red: 32/255, green: 74/255, blue: 135/255, alpha: 1.0).cgColor
-        var fillColor = UIColor(red: 114/255, green: 159/255, blue: 207/255, alpha: 1.0).cgColor
+        static let lineColor = UIColor(red: 32/255, green: 74/255, blue: 135/255, alpha: 1.0)//.cgColor
+        static let fillColor = UIColor(red: 114/255, green: 159/255, blue: 207/255, alpha: 1.0)//.cgColor
         struct lineColors { // Currently using Tango's Sky Blue Dark: #204a87
-            var red: CGFloat = 32/255
-            var green: CGFloat = 74/255
-            var blue: CGFloat = 135/255
-            var alpha: CGFloat = 1.0
+            static let red: CGFloat = 32/255
+            static let green: CGFloat = 74/255
+            static let blue: CGFloat = 135/255
+            static let alpha: CGFloat = 1.0
         }
         struct fillColors { // Currently using Tango's Sky Blue Light: #729fcf
-            var red: CGFloat = 114/255
-            var green: CGFloat = 159/255
-            var blue: CGFloat = 207/255
-            var alpha: CGFloat = 1.0
+            static let red: CGFloat = 114/255
+            static let green: CGFloat = 159/255
+            static let blue: CGFloat = 207/255
+            static let alpha: CGFloat = 1.0
         }
-        var lineWidth = 5.0;
+        static let lineWidth: CGFloat = 5.0;
     }
     
     private var dataPoints = [Int: Int](){
         didSet{
-            updateBezierPaths()
+            setNeedsDisplay()
         }
     }
-    private var bezierPaths = [UIBezierPath]()
     
     func addDataPoint(x: Int, y: Int){
         dataPoints[x] = y
@@ -42,20 +42,20 @@ class GraphView: UIView {
     func removeDataPoint(x: Int, y: Int){
         dataPoints[x] = nil
     }
-    func updateBezierPaths(){
+    
+    
+    override func draw(_ rect: CGRect) {
         for (xVal, yVal) in dataPoints{
             print(xVal, yVal) // shut up about me not using them
+            let path = UIBezierPath()
+            path.lineWidth = graph.lineWidth
+            path.move(to: CGPoint(x: bounds.minX + CGFloat(xVal), y: bounds.minY))
+            path.addLine(to:CGPoint(x: bounds.minX + CGFloat(xVal), y:bounds.minY + CGFloat(yVal)))
+            path.close()
+            graph.lineColor.setStroke()
+            graph.fillColor.setFill()
+            path.stroke()
+            path.fill()
         }
     }
-    
-    
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
 }
