@@ -29,6 +29,26 @@ class GraphView: UIView {
         var lineWidth = 5.0;
     }
     
+    private var dataPoints = [Int: Int](){
+        didSet{
+            updateBezierPaths()
+        }
+    }
+    private var bezierPaths = [UIBezierPath]()
+    
+    func addDataPoint(x: Int, y: Int){
+        dataPoints[x] = y
+    }
+    func removeDataPoint(x: Int, y: Int){
+        dataPoints[x] = nil
+    }
+    func updateBezierPaths(){
+        for (xVal, yVal) in dataPoints{
+            print(xVal, yVal) // shut up about me not using them
+        }
+    }
+    
+    
 
     /*
     // Only override draw() if you perform custom drawing.
