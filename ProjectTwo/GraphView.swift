@@ -50,8 +50,8 @@ class GraphView: UIView {
             print(xVal, yVal) // shut up about me not using them
             let path = UIBezierPath()
             path.lineWidth = graph.lineWidth
-            path.move(to: CGPoint(x: bounds.minX + CGFloat(xVal), y: bounds.minY))
-            path.addLine(to:CGPoint(x: bounds.minX + CGFloat(xVal), y:bounds.minY + CGFloat(yVal)))
+            path.move(to: CGPoint(x: bounds.minX + CGFloat(xVal), y: bounds.maxY))
+            path.addLine(to:CGPoint(x: bounds.minX + CGFloat(xVal), y:bounds.maxY - CGFloat(yVal)))
             path.close()
             graph.lineColor.setStroke()
             graph.fillColor.setFill()
