@@ -37,6 +37,7 @@ class GraphView: UIView {
     }
     
     func addDataPoint(x: Int, y: Int){
+        print("Adding new data point: (\(x), \(y))")
         dataPoints[x] = y
     }
     func removeDataPoint(x: Int, y: Int){

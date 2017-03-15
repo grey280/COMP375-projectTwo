@@ -9,9 +9,13 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var graph1: GraphView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        graph1.addDataPoint(x: 1, y: 5)
+        graph1.addDataPoint(x: 2, y: 20)
+        graph1.addDataPoint(x: 100, y: 250)
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -19,7 +23,4 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
-
