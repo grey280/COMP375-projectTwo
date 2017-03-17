@@ -11,20 +11,26 @@ import CoreGraphics
 
 
 
-class GraphView: UIView {
-    var lineColor = UIColor(red: 32/255, green: 74/255, blue: 135/255, alpha: 1.0){
+@IBDesignable class GraphView: UIView {
+    @IBInspectable var lineColor: UIColor = UIColor(red: 32/255, green: 74/255, blue: 135/255, alpha: 1.0){
         didSet{
             setNeedsDisplay()
         }
     }
-    var fillColor = UIColor(red: 114/255, green: 159/255, blue: 207/255, alpha: 1.0){
+    @IBInspectable var fillColor: UIColor = UIColor(red: 114/255, green: 159/255, blue: 207/255, alpha: 1.0){
         didSet{
             setNeedsDisplay()
         }
     }
-    var lineWidth: CGFloat = 5.0{
+    @IBInspectable var lineWidth: CGFloat = 5.0{
         didSet{
             setNeedsDisplay()
+        }
+    }
+    
+    override func prepareForInterfaceBuilder() {
+        for i in 0...250{
+            self.addDataPoint(x: i, y:Int(arc4random_uniform(100)))
         }
     }
     
@@ -75,7 +81,6 @@ class GraphView: UIView {
     private func scaledX(_ x: Int) -> Int{
         return scaled(input: x, minimum: minima.x, maximum: maxima.x)
     }
-    
     
     override func draw(_ rect: CGRect) { // Do the thing!
         for (xVal, yVal) in dataPoints{
