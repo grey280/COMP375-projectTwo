@@ -12,7 +12,7 @@ class SwipingGraphViewController: UIViewController {
     
     @IBOutlet weak var graph: GraphView!
     
-    var dataSet = [Int: Int]()
+    var dataSet = [(x: Int, y: Int)]()
     var zoomLevel = 0
     
     func zoomIn(){
@@ -27,10 +27,10 @@ class SwipingGraphViewController: UIViewController {
         fillNewDataSet()
     }
     func fillNewDataSet(){ // TODO: fix this so it's smarter and won't zoom outside the dataset
-        var newDataSet = [Int: Int]()
+        var newDataSet = [(x: Int, y:Int)]()
         for (x, y) in dataSet{
             if x > (2<<(zoomLevel)){
-                newDataSet[x]=y
+                newDataSet.append((x: x, y: y))
             }
         }
         graph.newDataSet(newDataSet)
@@ -56,10 +56,10 @@ class SwipingGraphViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         for i in 0...100{
-            dataSet[i] = i
+            dataSet.append((x: i, y: i))
         }
         for i in 101...200{
-            dataSet[i] = 200-i
+            dataSet.append((x: i, y:200-i))
         }
         graph.newDataSet(dataSet)
         

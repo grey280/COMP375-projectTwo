@@ -47,7 +47,7 @@ import CoreGraphics
     
     private var minima = (x: Int.max, y: Int.max) // Keep track of minimum and maximum values
     private var maxima = (x: Int.min, y: Int.min)
-    private var dataPoints = [Int: Int](){ // List of all data points. Everything is an int for now, might make it a float later on.
+    private var dataPoints = [(x: Int, y: Int)](){ // List of all data points. Everything is an int for now, might make it a float later on.
         didSet{
             setNeedsDisplay()
         }
@@ -56,9 +56,9 @@ import CoreGraphics
     func addDataPoint(x: Int, y: Int){
         print("Adding new data point: (\(x), \(y))")
         setMinMax(x: x, y: y)
-        dataPoints[x] = y
+        dataPoints.append((x: x, y: y))
     }
-    func newDataSet(_ input: [Int: Int]){
+    func newDataSet(_ input: [(x: Int, y: Int)]){
         dataPoints = input
         minima = (x: Int.max, y: Int.max)
         maxima = (x: Int.min, y: Int.min)
@@ -68,8 +68,11 @@ import CoreGraphics
         print(minima)
         print(maxima)
     }
+    
     func removeDataPoint(x: Int, y: Int){
-        dataPoints[x] = nil
+        dataPoints = dataPoints.filter {
+            $0.x == x && $0.y == y
+        }
     }
     
     // Helper functions
