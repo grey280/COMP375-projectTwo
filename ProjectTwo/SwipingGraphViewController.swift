@@ -26,7 +26,7 @@ class SwipingGraphViewController: UIViewController {
         }
         fillNewDataSet()
     }
-    func fillNewDataSet(){
+    func fillNewDataSet(){ // TODO: fix this so it's smarter and won't zoom outside the dataset
         var newDataSet = [Int: Int]()
         for (x, y) in dataSet{
             if x > (2<<(zoomLevel)){
@@ -55,8 +55,11 @@ class SwipingGraphViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        for i in 50...250{
+        for i in 0...100{
             dataSet[i] = i
+        }
+        for i in 101...200{
+            dataSet[i] = 200-i
         }
         graph.newDataSet(dataSet)
         
