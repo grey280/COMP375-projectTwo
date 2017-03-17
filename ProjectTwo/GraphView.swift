@@ -12,7 +12,7 @@ import CoreGraphics
 
 
 class GraphView: UIView {
-    struct graph {
+    struct graph { // Store a bunch of data here, so it's organized
         static let lineColor = UIColor(red: 32/255, green: 74/255, blue: 135/255, alpha: 1.0)//.cgColor
         static let fillColor = UIColor(red: 114/255, green: 159/255, blue: 207/255, alpha: 1.0)//.cgColor
         struct lineColors { // Currently using Tango's Sky Blue Dark: #204a87
@@ -30,12 +30,12 @@ class GraphView: UIView {
         static let lineWidth: CGFloat = 5.0;
     }
     
-    private var dataPoints = [Int: Int](){
+    private var dataPoints = [Int: Int](){ // List of all data points. Everything is an int for now, might make it a float later on.
         didSet{
             setNeedsDisplay()
         }
     }
-    
+    // Functions for dealing with the data points we've got
     func addDataPoint(x: Int, y: Int){
         print("Adding new data point: (\(x), \(y))")
         dataPoints[x] = y
@@ -45,14 +45,16 @@ class GraphView: UIView {
     }
     
     
-    override func draw(_ rect: CGRect) {
+    override func draw(_ rect: CGRect) { // Do the thing!
         for (xVal, yVal) in dataPoints{
-            print(xVal, yVal) // shut up about me not using them
             let path = UIBezierPath()
+            // Set up the path
             path.lineWidth = graph.lineWidth
-            path.move(to: CGPoint(x: bounds.minX + CGFloat(xVal), y: bounds.maxY))
+            path.move(to: CGPoint(x: bounds.minX + CGFloat(xVal), y: bounds.maxY)) // maxY is bottom; minY is top.
             path.addLine(to:CGPoint(x: bounds.minX + CGFloat(xVal), y:bounds.maxY - CGFloat(yVal)))
             path.close()
+            
+            // Draw the path
             graph.lineColor.setStroke()
             graph.fillColor.setFill()
             path.stroke()
