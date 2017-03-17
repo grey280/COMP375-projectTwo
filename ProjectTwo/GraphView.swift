@@ -47,7 +47,7 @@ import CoreGraphics
     
     private var minima = (x: Int.max, y: Int.max) // Keep track of minimum and maximum values
     private var maxima = (x: Int.min, y: Int.min)
-    private var dataPoints = [Int: Int](){ // List of all data points. Everything is an int for now, might make it a float later on.
+    private var dataPoints = [(x: Int, y: Int)](){ // List of all data points. Everything is an int for now, might make it a float later on.
         didSet{
             setNeedsDisplay()
         }
@@ -55,6 +55,34 @@ import CoreGraphics
     // Functions for dealing with the data points we've got
     func addDataPoint(x: Int, y: Int){
         print("Adding new data point: (\(x), \(y))")
+        setMinMax(x: x, y: y)
+        dataPoints.append((x: x, y: y))
+        sortDataPoints()
+    }
+    func newDataSet(_ input: [(x: Int, y: Int)]){
+        dataPoints = input
+        minima = (x: Int.max, y: Int.max)
+        maxima = (x: Int.min, y: Int.min)
+        for (x, y) in input{
+            setMinMax(x: x, y: y)
+        }
+        print(minima)
+        print(maxima)
+        sortDataPoints()
+    }
+    func removeDataPoint(x: Int, y: Int){
+        dataPoints = dataPoints.filter {
+            $0.x == x && $0.y == y
+        }
+        sortDataPoints()
+    }
+    func getDataSet() -> [(x: Int, y: Int)]{
+        sortDataPoints()
+        return dataPoints
+    }
+    
+    // Helper functions
+    private func setMinMax(x: Int, y: Int){
         if x > maxima.x{ // Keep track of minimum and maximum values
             maxima.x = x
         }
@@ -67,37 +95,28 @@ import CoreGraphics
         if y < minima.y{
             minima.y = y
         }
-        dataPoints[x] = y
     }
-    func removeDataPoint(x: Int, y: Int){
-        dataPoints[x] = nil
+    private func scaled(input: Int, minimum: Int, maximum: Int, horizontal: Bool = true) -> Int{
+        var bound = 0.0
+        if(horizontal){
+            bound = Double(self.bounds.width) - Double(2*padding)
+        }else{
+            bound = Double(self.bounds.height) - Double(2*padding)
+        }
+        let range = Double(maximum - minimum - 2*padding)
+        
+        var out = Double(input-minimum)/range
+        out *= bound
+        
+        return Int(out) + padding
+    }
+    private func sortDataPoints(){
+        dataPoints = dataPoints.sorted {
+            $0.x > $1.x
+        }
     }
     
-    // Helper functions
-    private func scaled(input: Int, minimum: Int, maximum: Int, horizontal: Bool = true) -> Int{
-        let height = Float(self.bounds.height)
-        let width = Float(self.bounds.width)
-        let range = maximum - minimum
-        var inFloat = Float(input) / Float(range)
-        // Figure out what the bounds are, scale to that, and then move based on padding
-        if horizontal{
-            inFloat *= width
-            if inFloat > 0.5*width{
-                inFloat -= Float(padding)
-            }else{
-                inFloat += Float(padding)
-            }
-        }else{
-            inFloat *= height
-            if inFloat > 0.5*height{
-                inFloat -= Float(padding)
-            }else{
-                inFloat += Float(padding)
-            }
-        }
-        return Int(inFloat)
-    }
-    // Helper functions
+    // Helper functions for the helper functions
     private func scaledY(_ y: Int) -> Int{
         return scaled(input: y, minimum: minima.y, maximum: maxima.y, horizontal: false)
     }
