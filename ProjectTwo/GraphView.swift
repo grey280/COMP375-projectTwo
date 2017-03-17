@@ -38,6 +38,21 @@ import CoreGraphics
             setNeedsDisplay()
         }
     }
+    @IBInspectable var rectDrawColor: UIColor = UIColor.white{
+        didSet{
+            setNeedsDisplay()
+        }
+    }
+    @IBInspectable var rectFillColor: UIColor = UIColor.white{
+        didSet{
+            setNeedsDisplay()
+        }
+    }
+    @IBInspectable var cornerRadius: CGFloat = 0.0{
+        didSet{
+            setNeedsDisplay()
+        }
+    }
     
     override func prepareForInterfaceBuilder() { // fill in random data
         for i in 0...250{
@@ -125,6 +140,10 @@ import CoreGraphics
     }
     
     override func draw(_ rect: CGRect) { // Do the thing!
+        let rect = CGRect(x: bounds.minX, y: bounds.minY, width: bounds.width, height: bounds.height)
+        let backPath = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
+        rectFillColor.setFill()
+        backPath.fill()
         for (xVal, yVal) in dataPoints{
             let path = UIBezierPath()
             let scaleX = scaledX(xVal)
@@ -149,5 +168,10 @@ import CoreGraphics
             path.stroke()
             path.fill()
         }
+        
+        
+        rectDrawColor.setStroke()
+        
+        backPath.stroke()
     }
 }
