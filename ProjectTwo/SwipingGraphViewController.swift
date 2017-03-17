@@ -26,13 +26,13 @@ class SwipingGraphViewController: UIViewController {
         }
         fillNewDataSet()
     }
-    func fillNewDataSet(){ // TODO: fix this so it's smarter and won't zoom outside the dataset
-        var newDataSet = [(x: Int, y:Int)]()
-        for (x, y) in dataSet{
-            if x > (2<<(zoomLevel)){
-                newDataSet.append((x: x, y: y))
-            }
+    func fillNewDataSet(){
+        let startIndexD = Double(pow(2.0, Double(zoomLevel)))
+        var amountToUse = Int(startIndexD)
+        if amountToUse > dataSet.count - 10{
+            amountToUse = dataSet.count - Int(dataSet.count/10)
         }
+        let newDataSet = Array(dataSet[amountToUse..<dataSet.count])
         graph.newDataSet(newDataSet)
     }
     func resetDataSet(){
@@ -41,11 +41,11 @@ class SwipingGraphViewController: UIViewController {
     }
     @IBAction func swipeRight(_ sender: UISwipeGestureRecognizer) {
         print("swipeRight")
-        zoomIn()
+        zoomOut()
     }
     @IBAction func swipLeft(_ sender: UISwipeGestureRecognizer) {
         print("swipeLeft")
-        zoomOut()
+        zoomIn()
     }
     @IBAction func tap(_ sender: UITapGestureRecognizer) {
         print("tap")
