@@ -21,8 +21,8 @@ class SwipingGraphViewController: UIViewController {
     }
     func zoomOut(){
         zoomLevel -= 1
-        if zoomLevel < 0 {
-            zoomLevel = 0
+        if zoomLevel <= 0 {
+            resetDataSet()
         }
         fillNewDataSet()
     }
@@ -35,6 +35,10 @@ class SwipingGraphViewController: UIViewController {
         }
         graph.newDataSet(newDataSet)
     }
+    func resetDataSet(){
+        graph.newDataSet(dataSet)
+        zoomLevel = 0
+    }
     @IBAction func swipeRight(_ sender: UISwipeGestureRecognizer) {
         print("swipeRight")
         zoomIn()
@@ -45,14 +49,13 @@ class SwipingGraphViewController: UIViewController {
     }
     @IBAction func tap(_ sender: UITapGestureRecognizer) {
         print("tap")
-        graph.newDataSet(dataSet)
-        zoomLevel = 0
+        resetDataSet()
     }
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        for i in 0...250{
+        for i in 50...250{
             dataSet[i] = i
         }
         graph.newDataSet(dataSet)

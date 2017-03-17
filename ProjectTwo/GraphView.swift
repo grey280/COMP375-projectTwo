@@ -60,9 +60,13 @@ import CoreGraphics
     }
     func newDataSet(_ input: [Int: Int]){
         dataPoints = input
-        for (x, y) in dataPoints{
+        minima = (x: Int.max, y: Int.max)
+        maxima = (x: Int.min, y: Int.min)
+        for (x, y) in input{
             setMinMax(x: x, y: y)
         }
+        print(minima)
+        print(maxima)
     }
     func removeDataPoint(x: Int, y: Int){
         dataPoints[x] = nil
@@ -87,7 +91,7 @@ import CoreGraphics
         let height = Float(self.bounds.height)
         let width = Float(self.bounds.width)
         let range = maximum - minimum
-        var inFloat = Float(input) / Float(range)
+        var inFloat = Float(input-minimum) / Float(range)
         // Figure out what the bounds are, scale to that, and then move based on padding
         if horizontal{
             inFloat *= width
