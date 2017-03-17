@@ -73,6 +73,7 @@ import CoreGraphics
         let width = Float(self.bounds.width)
         let range = maximum - minimum
         var inFloat = Float(input) / Float(range)
+        // Figure out what the bounds are, scale to that, and then move based on padding
         if horizontal{
             inFloat *= width
             if inFloat > 0.5*width{
@@ -90,6 +91,7 @@ import CoreGraphics
         }
         return Int(inFloat)
     }
+    // Helper functions
     private func scaledY(_ y: Int) -> Int{
         return scaled(input: y, minimum: minima.y, maximum: maxima.y, horizontal: false)
     }
