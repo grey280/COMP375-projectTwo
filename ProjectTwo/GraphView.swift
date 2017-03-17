@@ -72,10 +72,10 @@ class GraphView: UIView {
         }
         return Int(inFloat)
     }
-    private func scaledY(y: Int) -> Int{
+    private func scaledY(_ y: Int) -> Int{
         return scaled(input: y, minimum: minima.y, maximum: maxima.y, horizontal: false)
     }
-    private func scaledX(x: Int) -> Int{
+    private func scaledX(_ x: Int) -> Int{
         return scaled(input: x, minimum: minima.x, maximum: maxima.x)
     }
     
@@ -83,10 +83,12 @@ class GraphView: UIView {
     override func draw(_ rect: CGRect) { // Do the thing!
         for (xVal, yVal) in dataPoints{
             let path = UIBezierPath()
+            let scaleX = scaledX(xVal)
+            let scaleY = scaledY(yVal)
             // Set up the path
             path.lineWidth = graph.lineWidth
-            path.move(to: CGPoint(x: bounds.minX + CGFloat(xVal), y: bounds.maxY)) // maxY is bottom; minY is top.
-            path.addLine(to:CGPoint(x: bounds.minX + CGFloat(xVal), y:bounds.maxY - CGFloat(yVal)))
+            path.move(to: CGPoint(x: bounds.minX + CGFloat(scaleX), y: bounds.maxY)) // maxY is bottom; minY is top.
+            path.addLine(to:CGPoint(x: bounds.minX + CGFloat(scaleX), y:bounds.maxY - CGFloat(scaleY)))
             path.close()
             
             // Draw the path
