@@ -12,24 +12,21 @@ import CoreGraphics
 
 
 class GraphView: UIView {
-    struct graph { // Store a bunch of data here, so it's organized
-        static let lineColor = UIColor(red: 32/255, green: 74/255, blue: 135/255, alpha: 1.0)//.cgColor
-        static let fillColor = UIColor(red: 114/255, green: 159/255, blue: 207/255, alpha: 1.0)//.cgColor
-        struct lineColors { // Currently using Tango's Sky Blue Dark: #204a87
-            static let red: CGFloat = 32/255
-            static let green: CGFloat = 74/255
-            static let blue: CGFloat = 135/255
-            static let alpha: CGFloat = 1.0
+    var lineColor = UIColor(red: 32/255, green: 74/255, blue: 135/255, alpha: 1.0){
+        didSet{
+            setNeedsDisplay()
         }
-        struct fillColors { // Currently using Tango's Sky Blue Light: #729fcf
-            static let red: CGFloat = 114/255
-            static let green: CGFloat = 159/255
-            static let blue: CGFloat = 207/255
-            static let alpha: CGFloat = 1.0
-        }
-        static let lineWidth: CGFloat = 5.0;
     }
-    
+    var fillColor = UIColor(red: 114/255, green: 159/255, blue: 207/255, alpha: 1.0){
+        didSet{
+            setNeedsDisplay()
+        }
+    }
+    var lineWidth: CGFloat = 5.0{
+        didSet{
+            setNeedsDisplay()
+        }
+    }
     
     private var minima = (x: Int.max, y: Int.max) // Keep track of minimum and maximum values
     private var maxima = (x: Int.min, y: Int.min)
@@ -86,14 +83,14 @@ class GraphView: UIView {
             let scaleX = scaledX(xVal)
             let scaleY = scaledY(yVal)
             // Set up the path
-            path.lineWidth = graph.lineWidth
+            path.lineWidth = lineWidth
             path.move(to: CGPoint(x: bounds.minX + CGFloat(scaleX), y: bounds.maxY)) // maxY is bottom; minY is top.
             path.addLine(to:CGPoint(x: bounds.minX + CGFloat(scaleX), y:bounds.maxY - CGFloat(scaleY)))
             path.close()
             
             // Draw the path
-            graph.lineColor.setStroke()
-            graph.fillColor.setFill()
+            lineColor.setStroke()
+            fillColor.setFill()
             path.stroke()
             path.fill()
         }
