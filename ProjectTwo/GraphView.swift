@@ -88,24 +88,19 @@ import CoreGraphics
         }
     }
     private func scaled(input: Int, minimum: Int, maximum: Int, horizontal: Bool = true) -> Int{
-        let height = Float(self.bounds.height)
-        let width = Float(self.bounds.width)
-        let range = maximum - minimum
-        var inFloat = Float(input-minimum) / Float(range)
-        // Figure out what the bounds are, scale to that, and then move based on padding
-        if horizontal{ // scale based on how close to the edges you are
-            inFloat *= width
-            let localPadding = Float(padding) * (0.0-inFloat)
-            inFloat += localPadding
-        }else{ // vertical should scale linearly, so as not to distort data
-            inFloat *= height
-            if inFloat > 0.5*height{
-                inFloat -= Float(padding)
-            }else{
-                inFloat += Float(padding)
-            }
+        var bound = 0.0
+        if(horizontal){
+            bound = Double(self.bounds.width) - Double(2*padding)
+        }else{
+            bound = Double(self.bounds.height) - Double(2*padding)
         }
-        return Int(inFloat)
+        let range = Double(maximum - minimum - 2*padding)
+        
+        var out = Double(input-minimum)/range
+        out *= bound
+        
+        return Int(out) + padding
+        
     }
     // Helper functions
     private func scaledY(_ y: Int) -> Int{
