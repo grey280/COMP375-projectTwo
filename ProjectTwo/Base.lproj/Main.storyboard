@@ -24,7 +24,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EkD-po-NYZ" customClass="GraphView" customModule="ProjectTwo" customModuleProvider="target">
                                 <rect key="frame" x="16" y="28" width="343" height="128"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.44705882352941173" green="0.62352941176470589" blue="0.81176470588235294" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="uqY-bY-WBz"/>
                                 </constraints>
