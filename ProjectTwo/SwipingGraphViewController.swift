@@ -12,13 +12,14 @@ class SwipingGraphViewController: UIViewController {
     
     @IBOutlet weak var graph: GraphView!
     
-    var dataSet = [Int: Int]
+    var dataSet = [Int: Int]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         for i in 0...250{
             dataSet[i] = i
         }
+        graph.newDataSet(dataSet)
 
         // Do any additional setup after loading the view.
     }

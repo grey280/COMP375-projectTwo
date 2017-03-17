@@ -55,6 +55,21 @@ import CoreGraphics
     // Functions for dealing with the data points we've got
     func addDataPoint(x: Int, y: Int){
         print("Adding new data point: (\(x), \(y))")
+        setMinMax(x: x, y: y)
+        dataPoints[x] = y
+    }
+    func newDataSet(_ input: [Int: Int]){
+        dataPoints = input
+        for (x, y) in dataPoints{
+            setMinMax(x: x, y: y)
+        }
+    }
+    func removeDataPoint(x: Int, y: Int){
+        dataPoints[x] = nil
+    }
+    
+    // Helper functions
+    private func setMinMax(x: Int, y: Int){
         if x > maxima.x{ // Keep track of minimum and maximum values
             maxima.x = x
         }
@@ -67,13 +82,7 @@ import CoreGraphics
         if y < minima.y{
             minima.y = y
         }
-        dataPoints[x] = y
     }
-    func removeDataPoint(x: Int, y: Int){
-        dataPoints[x] = nil
-    }
-    
-    // Helper functions
     private func scaled(input: Int, minimum: Int, maximum: Int, horizontal: Bool = true) -> Int{
         let height = Float(self.bounds.height)
         let width = Float(self.bounds.width)
