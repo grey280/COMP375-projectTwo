@@ -12,6 +12,7 @@ import CoreGraphics
 
 
 @IBDesignable class GraphView: UIView {
+    // Accessible variables
     @IBInspectable var lineColor: UIColor = UIColor.black{
         didSet{
             setNeedsDisplay()
@@ -22,12 +23,17 @@ import CoreGraphics
             setNeedsDisplay()
         }
     }
-    @IBInspectable var lineWidth: CGFloat = 5.0{
+    @IBInspectable var lineWidth: CGFloat = 1.0{
         didSet{
             setNeedsDisplay()
         }
     }
-    @IBInspectable var padding: Int = 2{
+    @IBInspectable var drawWidth: CGFloat = 5.0{
+        didSet{
+            setNeedsDisplay()
+        }
+    }
+    @IBInspectable var padding: Int = 5{
         didSet{
             setNeedsDisplay()
         }
@@ -104,10 +110,18 @@ import CoreGraphics
             let path = UIBezierPath()
             let scaleX = scaledX(xVal)
             let scaleY = scaledY(yVal)
+            // Set up the points to draw
+            let topLeft = CGPoint(x: bounds.minX + CGFloat(scaleX) - 0.5*drawWidth, y: bounds.maxY - CGFloat(scaleY))
+            let topRight = CGPoint(x: bounds.minX + CGFloat(scaleX) + 0.5*drawWidth, y: bounds.maxY - CGFloat(scaleY))
+            let bottomLeft = CGPoint(x: bounds.minX + CGFloat(scaleX) - 0.5*drawWidth, y:bounds.maxY)
+            let bottomRight = CGPoint(x: bounds.minX + CGFloat(scaleX) + 0.5*drawWidth, y:bounds.maxY)
+            
             // Set up the path
             path.lineWidth = lineWidth
-            path.move(to: CGPoint(x: bounds.minX + CGFloat(scaleX), y: bounds.maxY)) // maxY is bottom; minY is top.
-            path.addLine(to:CGPoint(x: bounds.minX + CGFloat(scaleX), y:bounds.maxY - CGFloat(scaleY)))
+            path.move(to:topLeft)
+            path.addLine(to:topRight)
+            path.addLine(to:bottomRight)
+            path.addLine(to:bottomLeft)
             path.close()
             
             // Draw the path
