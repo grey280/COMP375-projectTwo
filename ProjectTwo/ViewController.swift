@@ -16,6 +16,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         for i in 0...250{
             graph1.addDataPoint(x: i, y:Int(arc4random_uniform(100)))
+        }
+        for i in 0...20{
             graph2.addDataPoint(x: i, y:Int(arc4random_uniform(100)))
         }
         // Do any additional setup after loading the view, typically from a nib.

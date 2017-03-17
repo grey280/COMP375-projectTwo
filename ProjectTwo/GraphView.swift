@@ -27,6 +27,11 @@ import CoreGraphics
             setNeedsDisplay()
         }
     }
+    @IBInspectable var padding: Int = 2{
+        didSet{
+            setNeedsDisplay()
+        }
+    }
     
     override func prepareForInterfaceBuilder() { // fill in random data
         for i in 0...250{
@@ -70,8 +75,18 @@ import CoreGraphics
         var inFloat = Float(input) / Float(range)
         if horizontal{
             inFloat *= width
+            if inFloat > 0.5*width{
+                inFloat -= Float(padding)
+            }else{
+                inFloat += Float(padding)
+            }
         }else{
             inFloat *= height
+            if inFloat > 0.5*height{
+                inFloat -= Float(padding)
+            }else{
+                inFloat += Float(padding)
+            }
         }
         return Int(inFloat)
     }
