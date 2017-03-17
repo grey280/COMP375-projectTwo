@@ -78,7 +78,7 @@ import CoreGraphics
         dataPoints = input
         minima = (x: Int.max, y: Int.max)
         maxima = (x: Int.min, y: Int.min)
-        for (x, y) in input{
+        for (x, y) in dataPoints{
             setMinMax(x: x, y: y)
         }
         print("Minima: \(minima)")
@@ -119,7 +119,7 @@ import CoreGraphics
             bound = Double(self.bounds.height)
         }
         let top = Double(input)*Double(bound - Double(padding+padding))
-        let bottom = Double(maximum) - Double(minimum)
+        let bottom = Double(maximum) + Double(minimum)
         let x1 = top/bottom
         
         return Int(x1)+padding
@@ -127,7 +127,7 @@ import CoreGraphics
     }
     private func sortDataPoints(){
         dataPoints = dataPoints.sorted {
-            $0.x > $1.x
+            $0.x < $1.x
         }
     }
     
