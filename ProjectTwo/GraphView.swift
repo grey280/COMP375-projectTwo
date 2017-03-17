@@ -81,8 +81,8 @@ import CoreGraphics
         for (x, y) in input{
             setMinMax(x: x, y: y)
         }
-        print(minima)
-        print(maxima)
+        print("Minima: \(minima)")
+        print("Maxima: \(maxima)")
         sortDataPoints()
     }
     func removeDataPoint(x: Int, y: Int){
@@ -114,16 +114,16 @@ import CoreGraphics
     private func scaled(input: Int, minimum: Int, maximum: Int, horizontal: Bool = true) -> Int{
         var bound = 0.0
         if(horizontal){
-            bound = Double(self.bounds.width) - Double(2*padding)
+            bound = Double(self.bounds.width)
         }else{
-            bound = Double(self.bounds.height) - Double(2*padding)
+            bound = Double(self.bounds.height)
         }
-        let range = Double(maximum - minimum - 2*padding)
+        let top = Double(input)*Double(bound - Double(padding+padding))
+        let bottom = Double(maximum) - Double(minimum)
+        let x1 = top/bottom
         
-        var out = Double(input-minimum)/range
-        out *= bound
+        return Int(x1)+padding
         
-        return Int(out) + padding
     }
     private func sortDataPoints(){
         dataPoints = dataPoints.sorted {
@@ -144,15 +144,20 @@ import CoreGraphics
         let backPath = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
         rectFillColor.setFill()
         backPath.fill()
+        print("Scaling (0,0) yields: (\(scaledX(0)), \(scaledY(0)))")
+        print("Scaling (\(maxima.x),0) yields: (\(scaledX(maxima.x)), \(scaledY(0)))")
+        print("Scaling (0, \(maxima.y)) yields: (\(scaledX(0)), \(scaledY(maxima.y)))")
         for (xVal, yVal) in dataPoints{
             let path = UIBezierPath()
             let scaleX = scaledX(xVal)
             let scaleY = scaledY(yVal)
+            
+            
             // Set up the points to draw
             let topLeft = CGPoint(x: bounds.minX + CGFloat(scaleX) - 0.5*drawWidth, y: bounds.maxY - CGFloat(scaleY))
             let topRight = CGPoint(x: bounds.minX + CGFloat(scaleX) + 0.5*drawWidth, y: bounds.maxY - CGFloat(scaleY))
-            let bottomLeft = CGPoint(x: bounds.minX + CGFloat(scaleX) - 0.5*drawWidth, y:bounds.maxY)
-            let bottomRight = CGPoint(x: bounds.minX + CGFloat(scaleX) + 0.5*drawWidth, y:bounds.maxY)
+            let bottomLeft = CGPoint(x: bounds.minX + CGFloat(scaleX) - 0.5*drawWidth, y:bounds.maxY - CGFloat(padding))
+            let bottomRight = CGPoint(x: bounds.minX + CGFloat(scaleX) + 0.5*drawWidth, y:bounds.maxY - CGFloat(padding))
             
             // Set up the path
             path.lineWidth = lineWidth
