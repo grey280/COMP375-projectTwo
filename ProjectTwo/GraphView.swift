@@ -57,6 +57,7 @@ import CoreGraphics
         print("Adding new data point: (\(x), \(y))")
         setMinMax(x: x, y: y)
         dataPoints.append((x: x, y: y))
+        sortDataPoints()
     }
     func newDataSet(_ input: [(x: Int, y: Int)]){
         dataPoints = input
@@ -67,12 +68,17 @@ import CoreGraphics
         }
         print(minima)
         print(maxima)
+        sortDataPoints()
     }
-    
     func removeDataPoint(x: Int, y: Int){
         dataPoints = dataPoints.filter {
             $0.x == x && $0.y == y
         }
+        sortDataPoints()
+    }
+    func getDataSet() -> [(x: Int, y: Int)]{
+        sortDataPoints()
+        return dataPoints
     }
     
     // Helper functions
@@ -103,9 +109,14 @@ import CoreGraphics
         out *= bound
         
         return Int(out) + padding
-        
     }
-    // Helper functions
+    private func sortDataPoints(){
+        dataPoints = dataPoints.sorted {
+            $0.x > $1.x
+        }
+    }
+    
+    // Helper functions for the helper functions
     private func scaledY(_ y: Int) -> Int{
         return scaled(input: y, minimum: minima.y, maximum: maxima.y, horizontal: false)
     }
