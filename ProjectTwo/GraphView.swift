@@ -93,14 +93,11 @@ import CoreGraphics
         let range = maximum - minimum
         var inFloat = Float(input-minimum) / Float(range)
         // Figure out what the bounds are, scale to that, and then move based on padding
-        if horizontal{
+        if horizontal{ // scale based on how close to the edges you are
             inFloat *= width
-            if inFloat > 0.5*width{
-                inFloat -= Float(padding)
-            }else{
-                inFloat += Float(padding)
-            }
-        }else{
+            let localPadding = Float(padding) * (0.0-inFloat)
+            inFloat += localPadding
+        }else{ // vertical should scale linearly, so as not to distort data
             inFloat *= height
             if inFloat > 0.5*height{
                 inFloat -= Float(padding)
