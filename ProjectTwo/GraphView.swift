@@ -30,6 +30,9 @@ class GraphView: UIView {
         static let lineWidth: CGFloat = 5.0;
     }
     
+    
+    private var minima = (x: Int.max, y: Int.max) // Keep track of minimum and maximum values
+    private var maxima = (x: Int.min, y: Int.min)
     private var dataPoints = [Int: Int](){ // List of all data points. Everything is an int for now, might make it a float later on.
         didSet{
             setNeedsDisplay()
@@ -38,10 +41,42 @@ class GraphView: UIView {
     // Functions for dealing with the data points we've got
     func addDataPoint(x: Int, y: Int){
         print("Adding new data point: (\(x), \(y))")
+        if x > maxima.x{ // Keep track of minimum and maximum values
+            maxima.x = x
+        }
+        if x < minima.x{
+            minima.x = x
+        }
+        if y > maxima.y{
+            maxima.y = y
+        }
+        if y < minima.y{
+            minima.y = y
+        }
         dataPoints[x] = y
     }
     func removeDataPoint(x: Int, y: Int){
         dataPoints[x] = nil
+    }
+    
+    // Helper functions
+    private func scaled(input: Int, minimum: Int, maximum: Int, horizontal: Bool = true) -> Int{
+        let height = Float(self.bounds.height)
+        let width = Float(self.bounds.width)
+        let range = maximum - minimum
+        var inFloat = Float(input) / Float(range)
+        if horizontal{
+            inFloat *= width
+        }else{
+            inFloat *= height
+        }
+        return Int(inFloat)
+    }
+    private func scaledY(y: Int) -> Int{
+        return scaled(input: y, minimum: minima.y, maximum: maxima.y, horizontal: false)
+    }
+    private func scaledX(x: Int) -> Int{
+        return scaled(input: x, minimum: minima.x, maximum: maxima.x)
     }
     
     
