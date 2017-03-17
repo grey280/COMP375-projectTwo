@@ -12,12 +12,12 @@ import CoreGraphics
 
 
 @IBDesignable class GraphView: UIView {
-    @IBInspectable var lineColor: UIColor = UIColor(red: 32/255, green: 74/255, blue: 135/255, alpha: 1.0){
+    @IBInspectable var lineColor: UIColor = UIColor.black{
         didSet{
             setNeedsDisplay()
         }
     }
-    @IBInspectable var fillColor: UIColor = UIColor(red: 114/255, green: 159/255, blue: 207/255, alpha: 1.0){
+    @IBInspectable var fillColor: UIColor = UIColor.black{
         didSet{
             setNeedsDisplay()
         }
@@ -28,7 +28,7 @@ import CoreGraphics
         }
     }
     
-    override func prepareForInterfaceBuilder() {
+    override func prepareForInterfaceBuilder() { // fill in random data
         for i in 0...250{
             self.addDataPoint(x: i, y:Int(arc4random_uniform(100)))
         }
