@@ -13,7 +13,7 @@ class SwipingGraphViewController: UIViewController {
     @IBOutlet weak var graph: GraphView!
     
     var dataSet = [Int: Int]()
-    var zoomLevel = 1
+    var zoomLevel = 0
     
     func zoomIn(){
         zoomLevel += 1
@@ -29,12 +29,26 @@ class SwipingGraphViewController: UIViewController {
     func fillNewDataSet(){
         var newDataSet = [Int: Int]()
         for (x, y) in dataSet{
-            if x > (2<<(zoomLevel-1)){
+            if x > (2<<(zoomLevel)){
                 newDataSet[x]=y
             }
         }
         graph.newDataSet(newDataSet)
     }
+    @IBAction func swipeRight(_ sender: UISwipeGestureRecognizer) {
+        print("swipeRight")
+        zoomIn()
+    }
+    @IBAction func swipLeft(_ sender: UISwipeGestureRecognizer) {
+        print("swipeLeft")
+        zoomOut()
+    }
+    @IBAction func tap(_ sender: UITapGestureRecognizer) {
+        print("tap")
+        graph.newDataSet(dataSet)
+        zoomLevel = 0
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
