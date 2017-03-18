@@ -55,11 +55,11 @@ class SwipingGraphViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        for i in 0...100{
+        for i in 0...10{
             dataSet.append((x: i, y: i))
         }
-        for i in 101...200{
-            dataSet.append((x: i, y:200-i))
+        for i in 11...20{
+            dataSet.append((x: i, y:20-i))
         }
         graph.newDataSet(dataSet)
         

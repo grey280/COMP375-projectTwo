@@ -157,8 +157,8 @@ import CoreGraphics
             let xSpot: CGFloat = bounds.minX + CGFloat(scaleX)
             let topLeft = CGPoint(x: xSpot - 0.5*drawWidth, y: bounds.maxY - CGFloat(scaleY))
             let topRight = CGPoint(x: xSpot + 0.5*drawWidth, y: bounds.maxY - CGFloat(scaleY))
-            let bottomLeft = CGPoint(x: xSpot - 0.5*drawWidth, y:bounds.maxY - CGFloat(padding))
-            let bottomRight = CGPoint(x: xSpot + 0.5*drawWidth, y:bounds.maxY - CGFloat(padding))
+            let bottomLeft = CGPoint(x: xSpot - 0.5*drawWidth, y:bounds.maxY - CGFloat(scaledY(0)))
+            let bottomRight = CGPoint(x: xSpot + 0.5*drawWidth, y:bounds.maxY - CGFloat(scaledY(0)))
             
             // Set up the path
             path.lineWidth = lineWidth
