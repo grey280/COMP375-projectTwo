@@ -75,14 +75,14 @@ import CoreGraphics
         sortDataPoints()
     }
     func newDataSet(_ input: [(x: Int, y: Int)]){
-        dataPoints = input
         minima = (x: Int.max, y: Int.max)
         maxima = (x: Int.min, y: Int.min)
-        for (x, y) in dataPoints{
+        for (x, y) in input{
             setMinMax(x: x, y: y)
         }
         print("Minima: \(minima)")
         print("Maxima: \(maxima)")
+        dataPoints = input
         sortDataPoints()
     }
     func removeDataPoint(x: Int, y: Int){
@@ -146,7 +146,7 @@ import CoreGraphics
         backPath.fill()
         print("Scaling (0,0) yields: (\(scaledX(0)), \(scaledY(0)))")
         print("Scaling (\(maxima.x),0) yields: (\(scaledX(maxima.x)), \(scaledY(0)))")
-        print("Scaling (0, \(maxima.y)) yields: (\(scaledX(0)), \(scaledY(maxima.y)))")
+        print("Scaling (\(minima.x),0) yields: (\(scaledX(minima.x)), \(scaledY(0)))")
         for (xVal, yVal) in dataPoints{
             let path = UIBezierPath()
             let scaleX = scaledX(xVal)
@@ -154,10 +154,11 @@ import CoreGraphics
             
             
             // Set up the points to draw
-            let topLeft = CGPoint(x: bounds.minX + CGFloat(scaleX) - 0.5*drawWidth, y: bounds.maxY - CGFloat(scaleY))
-            let topRight = CGPoint(x: bounds.minX + CGFloat(scaleX) + 0.5*drawWidth, y: bounds.maxY - CGFloat(scaleY))
-            let bottomLeft = CGPoint(x: bounds.minX + CGFloat(scaleX) - 0.5*drawWidth, y:bounds.maxY - CGFloat(padding))
-            let bottomRight = CGPoint(x: bounds.minX + CGFloat(scaleX) + 0.5*drawWidth, y:bounds.maxY - CGFloat(padding))
+            let xSpot: CGFloat = bounds.minX + CGFloat(scaleX)
+            let topLeft = CGPoint(x: xSpot - 0.5*drawWidth, y: bounds.maxY - CGFloat(scaleY))
+            let topRight = CGPoint(x: xSpot + 0.5*drawWidth, y: bounds.maxY - CGFloat(scaleY))
+            let bottomLeft = CGPoint(x: xSpot - 0.5*drawWidth, y:bounds.maxY - CGFloat(padding))
+            let bottomRight = CGPoint(x: xSpot + 0.5*drawWidth, y:bounds.maxY - CGFloat(padding))
             
             // Set up the path
             path.lineWidth = lineWidth
