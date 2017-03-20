@@ -113,7 +113,8 @@ import CoreGraphics
     private func scaled(input: Int, minimum: Int, maximum: Int, horizontal: Bool = true) -> Int{
         var bound = 0.0
         if(horizontal){
-            bound = Double(self.bounds.width) - Double(0.5*drawWidth)
+            return Int(scaleAxis() * Double(input))
+            //bound = Double(self.bounds.width) - Double(0.5*drawWidth)
         }else{
             bound = Double(self.bounds.height)
         }
