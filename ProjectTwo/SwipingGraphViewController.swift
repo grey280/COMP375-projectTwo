@@ -27,7 +27,7 @@ class SwipingGraphViewController: UIViewController {
         fillNewDataSet()
     }
     func fillNewDataSet(){
-        let startIndexD = Double(pow(2.0, Double(zoomLevel)))
+        let startIndexD = Double(pow(2.0, Double(zoomLevel-1)))
         var amountToUse = Int(startIndexD)
         if amountToUse > dataSet.count - 10{
             amountToUse = dataSet.count - Int(dataSet.count/10)
