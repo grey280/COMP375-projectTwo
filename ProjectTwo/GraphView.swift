@@ -122,10 +122,6 @@ import CoreGraphics
         let bottom = Double(maximum) + Double(minimum)
         let x1 = top/bottom
         if(horizontal){
-            print("Scaling: \(input) from min \(minimum) to max \(maximum) yields \(Int(x1)+padding)")
-            print("  Scaled by axis yields \(scaleAxis() * Double(input))")
-        }
-        if(horizontal){
             let hTop = Double(minima.x)*Double(bound - Double(padding+padding))
             return Int(x1)+padding+Int(0.5*drawWidth)-Int(hTop/bottom)
         }
