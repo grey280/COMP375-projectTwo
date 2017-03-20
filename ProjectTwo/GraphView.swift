@@ -122,21 +122,39 @@ import CoreGraphics
     private func scaled(input: Int, minimum: Int, maximum: Int, horizontal: Bool = true) -> Int{ // Does all the work of scaling a point from the original (Int, Int) space to the CG space.
         // Figure out which set of bounds we're using
         let scaleFactor = scaleAxis(horizontal: horizontal)
+        let scaledInput = Double(input) * scaleFactor
+        var localMinimum = 0.0
+        if(horizontal){
+            localMinimum = Double(minima.x)
+        }else{
+            localMinimum = Double(minima.y)
+        }
+        let scaledMinimum = localMinimum * scaleFactor
+        
+        
+        if(horizontal){
+            return Int(scaledInput - scaledMinimum) + padding + Int(0.5*drawWidth)
+            // return Int(Double(input)*scaleFactor) - Int(Double(minima.x)*scaleFactor) + padding + Int(0.5*drawWidth)
+        }else{
+            return Int(scaledInput - scaledMinimum) + padding
+        }
+        /*
+        // Y-Axis Bit
         var bound = 0.0
         if(horizontal){
             bound = Double(self.bounds.width) - Double(0.5*drawWidth)
         }else{
             bound = Double(self.bounds.height)
         }
-        
         // This bit will be removed once I've got the scaleAxis() thing working entirely right; just used for horizonal right now
         let top = Double(input)*Double(bound - Double(padding+padding))
         let bottom = Double(maximum) + Double(minimum)
         let x1 = top/bottom
-        if(horizontal){
-            return Int(Double(input)*scaleFactor) - Int(Double(minima.x)*scaleFactor) + padding + Int(0.5*drawWidth)
+        if(!horizontal){
+            return Int(x1)+padding
         }
-        return Int(x1)+padding
+        
+        return 0 // shut up */
     }
     
     private func scaleAxis(horizontal: Bool = true) -> Double{ // Creates a scaling factor along an axis; used for the scaled() function above.
