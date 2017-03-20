@@ -122,12 +122,31 @@ import CoreGraphics
         let x1 = top/bottom
         if(horizontal){
             print("Scaling: \(input) from min \(minimum) to max \(maximum) yields \(Int(x1)+padding)")
+            print("  Scaled by axis yields \(scaleAxis() * Double(input))")
         }
         if(horizontal){
             return Int(x1)+padding+Int(0.5*drawWidth)
         }
         return Int(x1)+padding
     }
+    
+    private func scaleAxis(horizontal: Bool = true) -> Double{
+        var bound = 0.0
+        var extremes = (minimum: Int.max, maximum: Int.min)
+        if(horizontal){
+            bound = Double(self.bounds.width) - Double(0.5*drawWidth)
+            extremes.minimum = minima.x
+            extremes.maximum = maxima.x
+        }else{
+            bound = Double(self.bounds.height)
+            extremes.minimum = minima.y
+            extremes.maximum = maxima.y
+        }
+        let range = Double(extremes.maximum - extremes.minimum)
+        
+        return bound/range
+    }
+    
     private func sortDataPoints(){
         dataPoints = dataPoints.sorted {
             $0.x < $1.x
