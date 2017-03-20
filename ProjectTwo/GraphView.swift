@@ -53,7 +53,6 @@ import CoreGraphics
             setNeedsDisplay()
         }
     }
-    
     override func prepareForInterfaceBuilder() { // fill in random data
         for i in 0...250{
             self.addDataPoint(x: i, y:Int(arc4random_uniform(100)))
@@ -121,9 +120,11 @@ import CoreGraphics
         let top = Double(input)*Double(bound - Double(padding+padding))
         let bottom = Double(maximum) + Double(minimum)
         let x1 = top/bottom
+        if(horizontal){
+            print("Scaling: \(input) from min \(minimum) to max \(maximum) yields \(Int(x1)+padding)")
+        }
         
         return Int(x1)+padding
-        
     }
     private func sortDataPoints(){
         dataPoints = dataPoints.sorted {
@@ -144,9 +145,6 @@ import CoreGraphics
         let backPath = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
         rectFillColor.setFill()
         backPath.fill()
-        print("Scaling (0,0) yields: (\(scaledX(0)), \(scaledY(0)))")
-        print("Scaling (\(maxima.x),0) yields: (\(scaledX(maxima.x)), \(scaledY(0)))")
-        print("Scaling (\(minima.x),0) yields: (\(scaledX(minima.x)), \(scaledY(0)))")
         for (xVal, yVal) in dataPoints{
             let path = UIBezierPath()
             let scaleX = scaledX(xVal)
