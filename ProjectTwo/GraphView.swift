@@ -113,7 +113,7 @@ import CoreGraphics
     private func scaled(input: Int, minimum: Int, maximum: Int, horizontal: Bool = true) -> Int{
         var bound = 0.0
         if(horizontal){
-            bound = Double(self.bounds.width)
+            bound = Double(self.bounds.width) - Double(0.5*drawWidth)
         }else{
             bound = Double(self.bounds.height)
         }
@@ -123,7 +123,9 @@ import CoreGraphics
         if(horizontal){
             print("Scaling: \(input) from min \(minimum) to max \(maximum) yields \(Int(x1)+padding)")
         }
-        
+        if(horizontal){
+            return Int(x1)+padding+Int(0.5*drawWidth)
+        }
         return Int(x1)+padding
     }
     private func sortDataPoints(){
@@ -140,16 +142,20 @@ import CoreGraphics
         return scaled(input: x, minimum: minima.x, maximum: maxima.x)
     }
     
+    // The big part
     override func draw(_ rect: CGRect) { // Do the thing!
+        // Start drawing the background
         let rect = CGRect(x: bounds.minX, y: bounds.minY, width: bounds.width, height: bounds.height)
         let backPath = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
         rectFillColor.setFill()
         backPath.fill()
+        
+        // Go through the datapoints and graph them
         for (xVal, yVal) in dataPoints{
+            // Important bits
             let path = UIBezierPath()
             let scaleX = scaledX(xVal)
             let scaleY = scaledY(yVal)
-            
             
             // Set up the points to draw
             let xSpot: CGFloat = bounds.minX + CGFloat(scaleX)
@@ -173,9 +179,8 @@ import CoreGraphics
             path.fill()
         }
         
-        
+        // Finish drawing the background
         rectDrawColor.setStroke()
-        
         backPath.stroke()
     }
 }
