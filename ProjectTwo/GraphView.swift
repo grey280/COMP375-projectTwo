@@ -134,7 +134,7 @@ import CoreGraphics
         let bottom = Double(maximum) + Double(minimum)
         let x1 = top/bottom
         if(horizontal){
-            return Int(Double(input)*scaleFactor) - Int(Double(minima.x)*scaleFactor)
+            return Int(Double(input)*scaleFactor) - Int(Double(minima.x)*scaleFactor) + padding + Int(0.5*drawWidth)
         }
         return Int(x1)+padding
     }
@@ -156,7 +156,7 @@ import CoreGraphics
         }
         // The calculation itself isn't too complicated
         let range = Double(extremes.maximum - extremes.minimum)
-        return bound/range + padD
+        return bound/range
     }
     
     private func sortDataPoints(){ // Does what it says on the tin. Functional programming!
