@@ -123,7 +123,8 @@ import CoreGraphics
         let x1 = top/bottom
         if(horizontal){
             let hTop = Double(minima.x)*Double(bound - Double(padding+padding))
-            return Int(x1)+padding+Int(0.5*drawWidth)-Int(hTop/bottom)
+            return Int(Double(input)*scaleAxis()) - Int(hTop/bottom)
+//            return Int(x1)+padding+Int(0.5*drawWidth)-Int(hTop/bottom)
         }
         return Int(x1)+padding
     }
