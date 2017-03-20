@@ -58,10 +58,10 @@
 		2D9059541E79B7C2006FA6A4 /* ProjectTwo */ = {
 			isa = PBXGroup;
 			children = (
-				2DE2E62B1E7C5B7E00B3211C /* SwipingGraphViewController.swift */,
 				2D9059671E79B7DB006FA6A4 /* Supporting Files */,
-				2D9059571E79B7C2006FA6A4 /* ViewController.swift */,
 				2D9059591E79B7C2006FA6A4 /* Main.storyboard */,
+				2D9059571E79B7C2006FA6A4 /* ViewController.swift */,
+				2DE2E62B1E7C5B7E00B3211C /* SwipingGraphViewController.swift */,
 				2D9059681E79B80F006FA6A4 /* GraphView.swift */,
 			);
 			path = ProjectTwo;

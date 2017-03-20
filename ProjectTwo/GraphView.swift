@@ -53,10 +53,31 @@ import CoreGraphics
             setNeedsDisplay()
         }
     }
-    
     override func prepareForInterfaceBuilder() { // fill in random data
         for i in 0...250{
             self.addDataPoint(x: i, y:Int(arc4random_uniform(100)))
+        }
+    }
+    
+    // Public variables; mostly accessors
+    var scaleFactor: (x: Double, y: Double){ // Public way to view the scale factor; useful for showing things at scale with the graph
+        return (x: scaleAxis(), y: scaleAxis(horizontal: false))
+    }
+    var dataSet: [(x: Int, y: Int)]{ // Public way to access the dataset; wrapper on dataPoints, basically
+        get{
+            sortDataPoints()
+            return dataPoints
+        }
+        set{
+            minima = (x: Int.max, y: Int.max)
+            maxima = (x: Int.min, y: Int.min)
+            for (x, y) in newValue{
+                setMinMax(x: x, y: y)
+            }
+            print("Minima: \(minima)")
+            print("Maxima: \(maxima)")
+            dataPoints = newValue
+            sortDataPoints()
         }
     }
     
@@ -67,6 +88,7 @@ import CoreGraphics
             setNeedsDisplay()
         }
     }
+    
     // Functions for dealing with the data points we've got
     func addDataPoint(x: Int, y: Int){
         print("Adding new data point: (\(x), \(y))")
@@ -74,31 +96,17 @@ import CoreGraphics
         dataPoints.append((x: x, y: y))
         sortDataPoints()
     }
-    func newDataSet(_ input: [(x: Int, y: Int)]){
-        minima = (x: Int.max, y: Int.max)
-        maxima = (x: Int.min, y: Int.min)
-        for (x, y) in input{
-            setMinMax(x: x, y: y)
-        }
-        print("Minima: \(minima)")
-        print("Maxima: \(maxima)")
-        dataPoints = input
-        sortDataPoints()
-    }
-    func removeDataPoint(x: Int, y: Int){
+    func removeDataPoint(x: Int, y: Int){ // Remove a data point
         dataPoints = dataPoints.filter {
             $0.x == x && $0.y == y
         }
         sortDataPoints()
     }
-    func getDataSet() -> [(x: Int, y: Int)]{
-        sortDataPoints()
-        return dataPoints
-    }
     
     // Helper functions
     private func setMinMax(x: Int, y: Int){
-        if x > maxima.x{ // Keep track of minimum and maximum values
+        // Keep track of minimum and maximum values
+        if x > maxima.x{
             maxima.x = x
         }
         if x < minima.x{
@@ -111,47 +119,73 @@ import CoreGraphics
             minima.y = y
         }
     }
-    private func scaled(input: Int, minimum: Int, maximum: Int, horizontal: Bool = true) -> Int{
-        var bound = 0.0
+    private func scaled(input: Int, minimum: Int, maximum: Int, horizontal: Bool = true) -> Int{ // Does all the work of scaling a point from the original (Int, Int) space to the CG space.
+        let scaleFactor = scaleAxis(horizontal: horizontal) // Scale factor to move between spaces
+        let scaledInput = Double(input) * scaleFactor // Scale the input
+        // Figure out the minimum along the current axis
+        var localMinimum = 0.0
         if(horizontal){
-            bound = Double(self.bounds.width)
+            localMinimum = Double(minima.x)
         }else{
-            bound = Double(self.bounds.height)
+            localMinimum = Double(minima.y)
         }
-        let top = Double(input)*Double(bound - Double(padding+padding))
-        let bottom = Double(maximum) + Double(minimum)
-        let x1 = top/bottom
-        
-        return Int(x1)+padding
-        
+        let scaledMinimum = localMinimum * scaleFactor // Scale the minimum, too
+        var output = Int(scaledInput - scaledMinimum) + padding // Final calculation, ish
+        if(horizontal){ // If it's horizontal, we add in more padding to allow for the drawWidth; vertically we use the exact values, but horizontally we wanted it more than 1 point wide, y'know?
+            output += Int(0.5*drawWidth)
+        }
+        return output
+
     }
-    private func sortDataPoints(){
+    
+    private func scaleAxis(horizontal: Bool = true) -> Double{ // Creates a scaling factor along an axis; used for the scaled() function above.
+        // Variables used for the calculation
+        var bound = 0.0
+        var extremes = (minimum: Int.max, maximum: Int.min)
+        let padD = Double(padding)
+        // Set variables that're axis-dependent; horizontal has extra because the drawWidth effects the space used, while drawHeight is just the literal y values.
+        if(horizontal){
+            bound = Double(self.bounds.width) - Double(0.5*drawWidth) - 2.0*padD
+            extremes.minimum = minima.x
+            extremes.maximum = maxima.x
+        }else{
+            bound = Double(self.bounds.height) - 2.0*padD
+            extremes.minimum = minima.y
+            extremes.maximum = maxima.y
+        }
+        // The calculation itself isn't too complicated
+        let range = Double(extremes.maximum - extremes.minimum)
+        return bound/range
+    }
+    
+    private func sortDataPoints(){ // Does what it says on the tin. Functional programming!
         dataPoints = dataPoints.sorted {
             $0.x < $1.x
         }
     }
     
     // Helper functions for the helper functions
-    private func scaledY(_ y: Int) -> Int{
+    private func scaledY(_ y: Int) -> Int{ // Scales a y-point
         return scaled(input: y, minimum: minima.y, maximum: maxima.y, horizontal: false)
     }
-    private func scaledX(_ x: Int) -> Int{
+    private func scaledX(_ x: Int) -> Int{ // Scales an x-point
         return scaled(input: x, minimum: minima.x, maximum: maxima.x)
     }
     
+    // The big part
     override func draw(_ rect: CGRect) { // Do the thing!
+        // Start drawing the background
         let rect = CGRect(x: bounds.minX, y: bounds.minY, width: bounds.width, height: bounds.height)
         let backPath = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
         rectFillColor.setFill()
         backPath.fill()
-        print("Scaling (0,0) yields: (\(scaledX(0)), \(scaledY(0)))")
-        print("Scaling (\(maxima.x),0) yields: (\(scaledX(maxima.x)), \(scaledY(0)))")
-        print("Scaling (\(minima.x),0) yields: (\(scaledX(minima.x)), \(scaledY(0)))")
+        
+        // Go through the datapoints and graph them
         for (xVal, yVal) in dataPoints{
+            // Important bits
             let path = UIBezierPath()
             let scaleX = scaledX(xVal)
             let scaleY = scaledY(yVal)
-            
             
             // Set up the points to draw
             let xSpot: CGFloat = bounds.minX + CGFloat(scaleX)
@@ -175,9 +209,8 @@ import CoreGraphics
             path.fill()
         }
         
-        
+        // Finish drawing the background
         rectDrawColor.setStroke()
-        
         backPath.stroke()
     }
 }

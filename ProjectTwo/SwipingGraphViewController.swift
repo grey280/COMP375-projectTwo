@@ -33,10 +33,10 @@ class SwipingGraphViewController: UIViewController {
             amountToUse = dataSet.count - Int(dataSet.count/10)
         }
         let newDataSet = Array(dataSet[amountToUse..<dataSet.count])
-        graph.newDataSet(newDataSet)
+        graph.dataSet = newDataSet
     }
     func resetDataSet(){
-        graph.newDataSet(dataSet)
+        graph.dataSet = dataSet
         zoomLevel = 0
     }
     @IBAction func swipeRight(_ sender: UISwipeGestureRecognizer) {
@@ -61,7 +61,7 @@ class SwipingGraphViewController: UIViewController {
         for i in 11...20{
             dataSet.append((x: i, y:20-i))
         }
-        graph.newDataSet(dataSet)
+        graph.dataSet = dataSet
         
 
         // Do any additional setup after loading the view.
