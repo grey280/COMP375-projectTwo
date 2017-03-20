@@ -12,7 +12,7 @@ import CoreGraphics
 
 
 @IBDesignable class GraphView: UIView {
-    // Accessible variables
+    // Configuration stuff; mostly meant for use from IB, but can be used just as well from in the code.
     @IBInspectable var lineColor: UIColor = UIColor.black{
         didSet{
             setNeedsDisplay()
@@ -53,13 +53,6 @@ import CoreGraphics
             setNeedsDisplay()
         }
     }
-    override func prepareForInterfaceBuilder() { // fill in random data
-        for i in 0...250{
-            self.addDataPoint(x: i, y:Int(arc4random_uniform(100)))
-        }
-    }
-    
-    // Public variables; mostly accessors
     var scaleFactor: (x: Double, y: Double){ // Public way to view the scale factor; useful for showing things at scale with the graph
         return (x: scaleAxis(), y: scaleAxis(horizontal: false))
     }
@@ -83,20 +76,19 @@ import CoreGraphics
     
     private var minima = (x: Int.max, y: Int.max) // Keep track of minimum and maximum values
     private var maxima = (x: Int.min, y: Int.min)
-    private var dataPoints = [(x: Int, y: Int)](){ // List of all data points. Everything is an int for now, might make it a float later on.
+    private var dataPoints = [(x: Int, y: Int)](){ // List of all data points.
         didSet{
             setNeedsDisplay()
         }
     }
     
     // Functions for dealing with the data points we've got
-    func addDataPoint(x: Int, y: Int){
-        print("Adding new data point: (\(x), \(y))")
+    func addDataPoint(x: Int, y: Int){ // Does what it says on the tin
         setMinMax(x: x, y: y)
         dataPoints.append((x: x, y: y))
         sortDataPoints()
     }
-    func removeDataPoint(x: Int, y: Int){ // Remove a data point
+    func removeDataPoint(x: Int, y: Int){ // Does what it says on the tin
         dataPoints = dataPoints.filter {
             $0.x == x && $0.y == y
         }
@@ -137,7 +129,6 @@ import CoreGraphics
         return output
 
     }
-    
     private func scaleAxis(horizontal: Bool = true) -> Double{ // Creates a scaling factor along an axis; used for the scaled() function above.
         // Variables used for the calculation
         var bound = 0.0
@@ -157,14 +148,18 @@ import CoreGraphics
         let range = Double(extremes.maximum - extremes.minimum)
         return bound/range
     }
-    
+    override func prepareForInterfaceBuilder() { // Fills in some random data so it looks nice-ish in IB
+        for i in 0...250{
+            self.addDataPoint(x: i, y:Int(arc4random_uniform(100)))
+        }
+    }
     private func sortDataPoints(){ // Does what it says on the tin. Functional programming!
         dataPoints = dataPoints.sorted {
             $0.x < $1.x
         }
     }
     
-    // Helper functions for the helper functions
+    // Helper functions for the helper functions; really just makes them easier to use by filling in values.
     private func scaledY(_ y: Int) -> Int{ // Scales a y-point
         return scaled(input: y, minimum: minima.y, maximum: maxima.y, horizontal: false)
     }
