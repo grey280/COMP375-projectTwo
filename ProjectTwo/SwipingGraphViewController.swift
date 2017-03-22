@@ -53,6 +53,8 @@ class SwipingGraphViewController: UIViewController {
         resetDataSet()
     }
     
+    var healthStore: HKHealthStore?
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,12 +66,15 @@ class SwipingGraphViewController: UIViewController {
         }
         graph.dataSet = dataSet
         
+        let appDel = UIApplication.shared.delegate as! AppDelegate
+        healthStore = appDel.healthStore
+        
         if HKHealthStore.isHealthDataAvailable() {
             print("Health Data is available")
-            let healthStore = HKHealthStore()
+            
             let shareRequest: Set = [HKObjectType.quantityType(forIdentifier: .dietaryWater)!]
             let readRequest: Set = [HKObjectType.quantityType(forIdentifier: .dietaryWater)!]
-            healthStore.requestAuthorization(toShare: shareRequest, read: readRequest){
+            healthStore?.requestAuthorization(toShare: shareRequest, read: readRequest){
                 success, error in
                 if let e = error{
                     print(e)

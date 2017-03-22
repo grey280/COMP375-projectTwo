@@ -64,6 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				2DBC65361E82F202003B8AC2 /* ProjectTwo.entitlements */,
+				2D9059551E79B7C2006FA6A4 /* AppDelegate.swift */,
 				2D9059671E79B7DB006FA6A4 /* Supporting Files */,
 				2D9059591E79B7C2006FA6A4 /* Main.storyboard */,
 				2D9059571E79B7C2006FA6A4 /* ViewController.swift */,
@@ -76,7 +77,6 @@
 		2D9059671E79B7DB006FA6A4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				2D9059551E79B7C2006FA6A4 /* AppDelegate.swift */,
 				2D90595C1E79B7C2006FA6A4 /* Assets.xcassets */,
 				2D90595E1E79B7C2006FA6A4 /* LaunchScreen.storyboard */,
 				2D9059611E79B7C2006FA6A4 /* Info.plist */,
