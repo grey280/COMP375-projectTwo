@@ -13,6 +13,7 @@
 		2D90595D1E79B7C2006FA6A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D90595C1E79B7C2006FA6A4 /* Assets.xcassets */; };
 		2D9059601E79B7C2006FA6A4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D90595E1E79B7C2006FA6A4 /* LaunchScreen.storyboard */; };
 		2D9059691E79B80F006FA6A4 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9059681E79B80F006FA6A4 /* GraphView.swift */; };
+		2DBC65391E82F202003B8AC2 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DBC65381E82F202003B8AC2 /* HealthKit.framework */; };
 		2DE2E62C1E7C5B7E00B3211C /* SwipingGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE2E62B1E7C5B7E00B3211C /* SwipingGraphViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,8 @@
 		2D90595F1E79B7C2006FA6A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D9059611E79B7C2006FA6A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D9059681E79B80F006FA6A4 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
+		2DBC65361E82F202003B8AC2 /* ProjectTwo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ProjectTwo.entitlements; sourceTree = "<group>"; };
+		2DBC65381E82F202003B8AC2 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		2DE2E62B1E7C5B7E00B3211C /* SwipingGraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipingGraphViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -33,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DBC65391E82F202003B8AC2 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +48,7 @@
 			children = (
 				2D9059541E79B7C2006FA6A4 /* ProjectTwo */,
 				2D9059531E79B7C2006FA6A4 /* Products */,
+				2DBC65371E82F202003B8AC2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +63,7 @@
 		2D9059541E79B7C2006FA6A4 /* ProjectTwo */ = {
 			isa = PBXGroup;
 			children = (
+				2DBC65361E82F202003B8AC2 /* ProjectTwo.entitlements */,
 				2D9059671E79B7DB006FA6A4 /* Supporting Files */,
 				2D9059591E79B7C2006FA6A4 /* Main.storyboard */,
 				2D9059571E79B7C2006FA6A4 /* ViewController.swift */,
@@ -76,6 +82,14 @@
 				2D9059611E79B7C2006FA6A4 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2DBC65371E82F202003B8AC2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2DBC65381E82F202003B8AC2 /* HealthKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +126,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = W6KVFT267T;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -277,6 +296,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ProjectTwo/ProjectTwo.entitlements;
 				DEVELOPMENT_TEAM = W6KVFT267T;
 				INFOPLIST_FILE = ProjectTwo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -290,6 +310,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ProjectTwo/ProjectTwo.entitlements;
 				DEVELOPMENT_TEAM = W6KVFT267T;
 				INFOPLIST_FILE = ProjectTwo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

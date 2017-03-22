@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import HealthKit
 
 class SwipingGraphViewController: UIViewController {
     
@@ -62,6 +63,23 @@ class SwipingGraphViewController: UIViewController {
             dataSet.append((x: i, y:20-i))
         }
         graph.dataSet = dataSet
+        
+        if HKHealthStore.isHealthDataAvailable() {
+            print("Health Data is available")
+            let healthStore = HKHealthStore()
+            let shareRequest: Set = [HKObjectType.quantityType(forIdentifier: .dietaryWater)!]
+            let readRequest: Set = [HKObjectType.quantityType(forIdentifier: .dietaryWater)!]
+            healthStore.requestAuthorization(toShare: shareRequest, read: readRequest){
+                success, error in
+                if let e = error{
+                    print(e)
+                }else{
+                    print(success)
+                }
+            }
+        }else{
+            print("Health data is not available")
+        }
         
 
         // Do any additional setup after loading the view.
