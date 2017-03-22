@@ -55,40 +55,73 @@ class SwipingGraphViewController: UIViewController {
     
     var healthStore: HKHealthStore?
     
-    private func getWaterSum(forDate now: Date, completionHandler:@escaping (Double?, NSError?)->()){
-        let calendar = NSCalendar.current
+//    private func getWaterSumForDate(date: NSDate, completionHandler:(Double?, NSError?)->()){
+//        let calendar = NSCalendar.currentCalendar()
 //        let now = NSDate()
-//        let components = calendar.dateComponents(<#T##components: Set<Calendar.Component>##Set<Calendar.Component>#>, from: <#T##Date#>)
-        let components = calendar.dateComponents([NSCalendar.Unit.year, NSCalendar.Unit.month, NSCalendar.Unit.day], from: now)
-        
-        let startDate = calendar.dateFromComponents(components)
-        
-        let endDate = calendar.dateByAddingUnit(.DayCalendarUnit,
-                                                value: 1, toDate: startDate, options: NSCalendarOptions(nil))
-        
-        let sampleType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryWater)
-        let predicate = HKQuery.predicateForSamplesWithStartDate(startDate,
-                                                                 endDate: endDate, options: .StrictStartDate)
-        
+//        let components = calendar.components(.YearCalendarUnit |
+//            .MonthCalendarUnit | .DayCalendarUnit, fromDate: now)
+//        
+//        let startDate = calendar.dateFromComponents(components)
+//        
+//        let endDate = calendar.dateByAddingUnit(.DayCalendarUnit,
+//                                                value: 1, toDate: startDate, options: NSCalendarOptions(nil))
+//        
+//        let sampleType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifier.dietaryWater)
+//        let predicate = HKQuery.predicateForSamplesWithStartDate(startDate,
+//                                                                 endDate: endDate, options: .StrictStartDate)
+//        
+//        let query = HKStatisticsQuery(quantityType: sampleType,
+//                                      quantitySamplePredicate: predicate,
+//                                      options: .CumulativeSum) { query, result, error in
+//                                        
+//                                        if result != nil {
+//                                            completionHandler(nil, error)
+//                                            return
+//                                        }
+//                                        
+//                                        var totalCalories = 0.0
+//                                        
+//                                        if let quantity = result.sumQuantity() {
+//                                            let unit = HKUnit.jouleUnit()
+//                                            totalCalories = quantity.doubleValueForUnit(unit)
+//                                        }
+//                                        
+//                                        completionHandler(totalCalories, error)
+//        }
+//        
+//        healthStore.executeQuery(query)
+//    }
+    func fetchTotalJoulesConsumedWithCompletionHandler(
+        completionHandler:@escaping (Double?, NSError?)->()) {
+//        let calendar = NSCalendar.currentCalendar()
+//        let now = NSDate()
+//        let components = calendar.components(.YearCalendarUnit |
+//            .MonthCalendarUnit | .DayCalendarUnit, fromDate: now)
+//        let startDate = calendar.dateFromComponents(components)
+//        let endDate = calendar.dateByAddingUnit(.DayCalendarUnit,
+//                                                value: 1, toDate: startDate, options: NSCalendarOptions(nil))
+        let now = NSDate()
+        let oneDay: TimeInterval = 24*60*60
+        let startDate = NSDate(timeIntervalSinceNow: oneDay)
+        let endDate = now
+        let sampleType = HKQuantityType.quantityType(
+            forIdentifier: HKQuantityTypeIdentifier.dietaryEnergyConsumed)
+        let predicate = HKQuery.predicateForSamplesWithStartDate(startDate as Date,
+                                                                 endDate: endDate as Date, options: .strictStartDate)
         let query = HKStatisticsQuery(quantityType: sampleType,
                                       quantitySamplePredicate: predicate,
                                       options: .CumulativeSum) { query, result, error in
-                                        
                                         if result != nil {
                                             completionHandler(nil, error)
                                             return
                                         }
-                                        
                                         var totalCalories = 0.0
-                                        
                                         if let quantity = result.sumQuantity() {
                                             let unit = HKUnit.jouleUnit()
                                             totalCalories = quantity.doubleValueForUnit(unit)
                                         }
-                                        
                                         completionHandler(totalCalories, error)
         }
-        
         healthStore.executeQuery(query)
     }
     
