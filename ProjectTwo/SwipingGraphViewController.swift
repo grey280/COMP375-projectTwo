@@ -55,6 +55,43 @@ class SwipingGraphViewController: UIViewController {
     
     var healthStore: HKHealthStore?
     
+    private func getWaterSum(forDate now: Date, completionHandler:@escaping (Double?, NSError?)->()){
+        let calendar = NSCalendar.current
+//        let now = NSDate()
+//        let components = calendar.dateComponents(<#T##components: Set<Calendar.Component>##Set<Calendar.Component>#>, from: <#T##Date#>)
+        let components = calendar.dateComponents([NSCalendar.Unit.year, NSCalendar.Unit.month, NSCalendar.Unit.day], from: now)
+        
+        let startDate = calendar.dateFromComponents(components)
+        
+        let endDate = calendar.dateByAddingUnit(.DayCalendarUnit,
+                                                value: 1, toDate: startDate, options: NSCalendarOptions(nil))
+        
+        let sampleType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryWater)
+        let predicate = HKQuery.predicateForSamplesWithStartDate(startDate,
+                                                                 endDate: endDate, options: .StrictStartDate)
+        
+        let query = HKStatisticsQuery(quantityType: sampleType,
+                                      quantitySamplePredicate: predicate,
+                                      options: .CumulativeSum) { query, result, error in
+                                        
+                                        if result != nil {
+                                            completionHandler(nil, error)
+                                            return
+                                        }
+                                        
+                                        var totalCalories = 0.0
+                                        
+                                        if let quantity = result.sumQuantity() {
+                                            let unit = HKUnit.jouleUnit()
+                                            totalCalories = quantity.doubleValueForUnit(unit)
+                                        }
+                                        
+                                        completionHandler(totalCalories, error)
+        }
+        
+        healthStore.executeQuery(query)
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
