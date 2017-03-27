@@ -31,6 +31,26 @@ import CoreGraphics
         setNeedsDisplay()
     }
     
+    func defaultPaths(){
+        let center = CGPoint(x: bounds.maxX/2, y: bounds.maxY/2)
+        let path1 = UIBezierPath()
+        path1.move(to: center)
+        path1.addLine(to: CGPoint(x: (bounds.maxX/3), y:(bounds.maxY/2 - 20)))
+        path1.addLine(to: CGPoint(x: (bounds.maxX * 2/3), y:((bounds.maxY/2) - 20)))
+        path1.close()
+        
+        let path2 = UIBezierPath()
+        path2.move(to: CGPoint(x: (bounds.maxX / 3), y: (bounds.maxY/2 - 20)))
+        path2.addLine(to: CGPoint(x: (bounds.maxX * 2 / 3), y: (bounds.maxY/2 - 20)))
+        path2.addLine(to: CGPoint(x: (bounds.maxX * 2 / 3), y: (bounds.maxY/2 + 20)))
+        path2.addLine(to: CGPoint(x: (bounds.maxX / 3), y: (bounds.maxY/2 + 20)))
+        path2.close()
+        
+        paths = [path1, path2]
+        pathToUse = 0
+        
+    }
+    
     @IBInspectable var lineColor: UIColor = UIColor.black{
         didSet{
             setNeedsDisplay()
