@@ -9,8 +9,6 @@
 import UIKit
 import CoreGraphics
 
-
-
 @IBDesignable class GraphView: UIView {
     // Configuration stuff; mostly meant for use from IB, but can be used just as well from in the code.
     @IBInspectable var lineColor: UIColor = UIColor.black{
