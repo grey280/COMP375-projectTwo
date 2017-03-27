@@ -13,7 +13,7 @@
         <!--View Controller-->
         <scene sceneID="wuM-qS-vr8">
             <objects>
-                <viewController id="k5I-7h-U5n" sceneMemberID="viewController">
+                <viewController id="k5I-7h-U5n" customClass="ViewController" customModule="ProjectTwo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="f2W-sV-5WZ"/>
                         <viewControllerLayoutGuide type="bottom" id="iS2-rp-0hN"/>
@@ -22,21 +22,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YjP-2z-55n">
-                                <rect key="frame" x="0.0" y="20" width="375" height="317"/>
-                                <connections>
-                                    <segue destination="fZD-OU-LTI" kind="embed" id="qBo-aa-2Ne"/>
-                                </connections>
-                            </containerView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="T97-nH-tRp">
+                                <rect key="frame" x="0.0" y="20" width="375" height="639"/>
+                                <subviews>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YjP-2z-55n">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="319.5"/>
+                                        <connections>
+                                            <segue destination="fZD-OU-LTI" kind="embed" id="qBo-aa-2Ne"/>
+                                        </connections>
+                                    </containerView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qpR-lt-TU6" customClass="DrawView" customModule="ProjectTwo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="319.5" width="375" height="319.5"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <variation key="heightClass=compact" axis="horizontal"/>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="YjP-2z-55n" firstAttribute="centerX" secondItem="51k-LO-QZa" secondAttribute="centerX" id="2x7-Xy-Uzv"/>
-                            <constraint firstItem="iS2-rp-0hN" firstAttribute="top" secondItem="YjP-2z-55n" secondAttribute="bottom" constant="330" id="a8F-1W-IeS"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="YjP-2z-55n" secondAttribute="trailing" constant="-16" id="xuq-um-Kiv"/>
-                            <constraint firstItem="YjP-2z-55n" firstAttribute="top" secondItem="f2W-sV-5WZ" secondAttribute="bottom" id="yUy-N1-dL4"/>
+                            <constraint firstItem="T97-nH-tRp" firstAttribute="leading" secondItem="51k-LO-QZa" secondAttribute="leadingMargin" constant="-16" id="5TF-eB-rE7"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="T97-nH-tRp" secondAttribute="trailing" constant="-16" id="Z0o-Vf-JX1"/>
+                            <constraint firstItem="iS2-rp-0hN" firstAttribute="top" secondItem="T97-nH-tRp" secondAttribute="bottom" constant="8" id="eeK-Db-HJ9"/>
+                            <constraint firstItem="T97-nH-tRp" firstAttribute="top" secondItem="f2W-sV-5WZ" secondAttribute="bottom" id="xdr-gr-D9V"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="draw" destination="qpR-lt-TU6" id="ate-fd-y09"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mRq-y6-D7U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -51,11 +64,11 @@
                         <viewControllerLayoutGuide type="bottom" id="XGE-cE-vZk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2kI-jW-qZH">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="317"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="319.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IyM-9g-JC2" customClass="GraphView" customModule="ProjectTwo" customModuleProvider="target">
-                                <rect key="frame" x="16" y="8" width="343" height="301"/>
+                                <rect key="frame" x="16" y="8" width="343" height="303.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <userDefinedRuntimeAttributes>
