@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="fZD-OU-LTI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="k5I-7h-U5n">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,6 +10,38 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--View Controller-->
+        <scene sceneID="wuM-qS-vr8">
+            <objects>
+                <viewController id="k5I-7h-U5n" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="f2W-sV-5WZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="iS2-rp-0hN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="51k-LO-QZa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YjP-2z-55n">
+                                <rect key="frame" x="0.0" y="20" width="375" height="317"/>
+                                <connections>
+                                    <segue destination="fZD-OU-LTI" kind="embed" id="qBo-aa-2Ne"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="YjP-2z-55n" firstAttribute="centerX" secondItem="51k-LO-QZa" secondAttribute="centerX" id="2x7-Xy-Uzv"/>
+                            <constraint firstItem="iS2-rp-0hN" firstAttribute="top" secondItem="YjP-2z-55n" secondAttribute="bottom" constant="330" id="a8F-1W-IeS"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="YjP-2z-55n" secondAttribute="trailing" constant="-16" id="xuq-um-Kiv"/>
+                            <constraint firstItem="YjP-2z-55n" firstAttribute="top" secondItem="f2W-sV-5WZ" secondAttribute="bottom" id="yUy-N1-dL4"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mRq-y6-D7U" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="58.399999999999999" y="134.48275862068968"/>
+        </scene>
         <!--Swiping Graph View Controller-->
         <scene sceneID="2cT-nL-tgX">
             <objects>
@@ -19,16 +51,13 @@
                         <viewControllerLayoutGuide type="bottom" id="XGE-cE-vZk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2kI-jW-qZH">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="317"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IyM-9g-JC2" customClass="GraphView" customModule="ProjectTwo" customModuleProvider="target">
-                                <rect key="frame" x="16" y="28" width="343" height="128"/>
+                                <rect key="frame" x="16" y="8" width="343" height="301"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="gDL-7B-qu2"/>
-                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
                                         <color key="value" red="0.12549019610000001" green="0.2901960784" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
@@ -58,9 +87,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="IyM-9g-JC2" firstAttribute="top" secondItem="Ris-Qn-qBV" secondAttribute="bottom" constant="8" id="K5T-E4-UYt"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="IyM-9g-JC2" secondAttribute="leading" id="TMt-fF-Qkd"/>
-                            <constraint firstItem="IyM-9g-JC2" firstAttribute="centerX" secondItem="2kI-jW-qZH" secondAttribute="centerX" id="x21-ZF-cdg"/>
+                            <constraint firstItem="IyM-9g-JC2" firstAttribute="top" secondItem="Ris-Qn-qBV" secondAttribute="bottom" constant="8" id="5c4-hQ-B9z"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="IyM-9g-JC2" secondAttribute="trailing" id="OD0-sv-6zu"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="IyM-9g-JC2" secondAttribute="leading" id="nln-eD-Hbx"/>
+                            <constraint firstItem="IyM-9g-JC2" firstAttribute="centerY" secondItem="2kI-jW-qZH" secondAttribute="centerY" id="xx1-t8-Ko7"/>
                         </constraints>
                     </view>
                     <connections>
@@ -84,7 +114,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="862" y="135"/>
+            <point key="canvasLocation" x="868" y="-23.838080959520241"/>
         </scene>
     </scenes>
 </document>

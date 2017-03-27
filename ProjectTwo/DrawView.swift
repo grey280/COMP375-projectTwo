@@ -10,7 +10,18 @@ import UIKit
 import CoreGraphics
 
 @IBDesignable class DrawView: UIView {
-    var paths: [UIBezierPath] = []
+    private var paths: [UIBezierPath] = []{
+        didSet{
+            setNeedsDisplay()
+            if pathToUse == nil{
+                pathToUse = 0
+            }
+        }
+    }
+    var pathToUse: Int?
+    func addPath(_ input: UIBezierPath){
+        paths.append(input)
+    }
     
     @IBInspectable var lineColor: UIColor = UIColor.black{
         didSet{
@@ -29,13 +40,14 @@ import CoreGraphics
     }
     
     override func draw(_ rect: CGRect) {
+        guard let pathIndex = pathToUse else{
+            return
+        }
         fillColor.setFill()
         lineColor.setStroke()
-        for path in paths{
-            path.lineWidth = lineWidth
-            path.fill()
-            path.stroke()
-        }
+        paths[pathIndex].lineWidth = strokeWidth
+        paths[pathIndex].fill()
+        paths[pathIndex].stroke()
     }
     
 }
