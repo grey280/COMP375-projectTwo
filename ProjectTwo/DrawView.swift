@@ -18,9 +18,17 @@ import CoreGraphics
             }
         }
     }
-    var pathToUse: Int?
+    private var pathToUse: Int?
     func addPath(_ input: UIBezierPath){
         paths.append(input)
+    }
+    
+    func nextPath(){
+        guard pathToUse != nil else{
+            return
+        }
+        pathToUse = (pathToUse! + 1) % paths.count
+        setNeedsDisplay()
     }
     
     @IBInspectable var lineColor: UIColor = UIColor.black{
