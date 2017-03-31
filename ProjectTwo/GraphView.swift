@@ -11,42 +11,42 @@ import CoreGraphics
 
 @IBDesignable class GraphView: UIView {
     // Configuration stuff; mostly meant for use from IB, but can be used just as well from in the code.
-    @IBInspectable var lineColor: UIColor = UIColor.black{
+    @IBInspectable var lineColor: UIColor = UIColor.black{ // Color of the lines
         didSet{
             setNeedsDisplay()
         }
     }
-    @IBInspectable var fillColor: UIColor = UIColor.black{
+    @IBInspectable var fillColor: UIColor = UIColor.black{ // Color they're filled with; looks nice if it's basically a darker shade of lineColor
         didSet{
             setNeedsDisplay()
         }
     }
-    @IBInspectable var lineWidth: CGFloat = 1.0{
+    @IBInspectable var lineWidth: CGFloat = 1.0{ // Line width
         didSet{
             setNeedsDisplay()
         }
     }
-    @IBInspectable var drawWidth: CGFloat = 5.0{
+    @IBInspectable var drawWidth: CGFloat = 5.0{ // How wide the columns are drawn as
         didSet{
             setNeedsDisplay()
         }
     }
-    @IBInspectable var padding: Int = 5{
+    @IBInspectable var padding: Int = 5{ // Padding on the graph as a whole
         didSet{
             setNeedsDisplay()
         }
     }
-    @IBInspectable var rectDrawColor: UIColor = UIColor.white{
+    @IBInspectable var rectDrawColor: UIColor = UIColor.white{ // Color used when drawing the rectangle on which everything is graphed
         didSet{
             setNeedsDisplay()
         }
     }
-    @IBInspectable var rectFillColor: UIColor = UIColor.white{
+    @IBInspectable var rectFillColor: UIColor = UIColor.white{ // Color used when filling the rectangle on which everything is graphed
         didSet{
             setNeedsDisplay()
         }
     }
-    @IBInspectable var cornerRadius: CGFloat = 0.0{
+    @IBInspectable var cornerRadius: CGFloat = 0.0{ // Corner radius of the rectangle on which everything is graphed; recommend setting padding to *at least* this value.
         didSet{
             setNeedsDisplay()
         }
@@ -56,10 +56,10 @@ import CoreGraphics
     }
     var dataSet: [(x: Int, y: Int)]{ // Public way to access the dataset; wrapper on dataPoints, basically
         get{
-            sortDataPoints()
+            sortDataPoints() // Sort the data points before we return them, just to be nice
             return dataPoints
         }
-        set{
+        set{ // Setting everything means recalcluating our minima and maxima
             minima = (x: Int.max, y: Int.max)
             maxima = (x: Int.min, y: Int.min)
             for (x, y) in newValue{
@@ -72,7 +72,7 @@ import CoreGraphics
         }
     }
     
-    private var minima = (x: Int.max, y: Int.max) // Keep track of minimum and maximum values
+    private var minima = (x: Int.max, y: Int.max) // Keep track of minimum and maximum values; helpful for rendering
     private var maxima = (x: Int.min, y: Int.min)
     private var dataPoints = [(x: Int, y: Int)](){ // List of all data points.
         didSet{
@@ -165,7 +165,6 @@ import CoreGraphics
         return scaled(input: x, minimum: minima.x, maximum: maxima.x)
     }
     
-    // The big part
     override func draw(_ rect: CGRect) { // Do the thing!
         // Start drawing the background
         let rect = CGRect(x: bounds.minX, y: bounds.minY, width: bounds.width, height: bounds.height)
