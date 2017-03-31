@@ -33,7 +33,7 @@
                                     </containerView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qpR-lt-TU6" customClass="DrawView" customModule="ProjectTwo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="319.5" width="375" height="319.5"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
                                 <variation key="heightClass=compact" axis="horizontal"/>

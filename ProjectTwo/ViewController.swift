@@ -19,8 +19,11 @@ class ViewController: UIViewController {
         upSwipeRecognizer.direction = .up
         let downSwipeRecognizer = UISwipeGestureRecognizer(target: draw, action: #selector(draw.swipe(_:)))
         downSwipeRecognizer.direction = .down
+        let rightSwipeRecognizer = UISwipeGestureRecognizer(target: draw, action: #selector(draw.swipe(_:)))
+        downSwipeRecognizer.direction = .right
         draw.addGestureRecognizer(upSwipeRecognizer)
         draw.addGestureRecognizer(downSwipeRecognizer)
+        draw.addGestureRecognizer(rightSwipeRecognizer)
         
         draw.defaultPaths()
         

@@ -36,6 +36,17 @@ import CoreGraphics
             paths[pathIndex] = alternatePaths[pathIndex]
         case UISwipeGestureRecognizerDirection.down: // compress vertically
             paths[pathIndex] = originalPaths[pathIndex]
+        case UISwipeGestureRecognizerDirection.right:
+            let animatingOptions: UIViewAnimationOptions = UIViewAnimationOptions()
+            UIView.transition(with: self, duration: 0.25, options: animatingOptions, animations: { 
+                let transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
+                self.transform = transform
+            }, completion: { (succcess) in
+                UIView.transition(with: self, duration: 0.25, options: animatingOptions, animations: {
+                    let defaultTransform = CGAffineTransform(rotationAngle: 0)
+                    self.transform = defaultTransform
+                }, completion: nil)
+            })
         default:
             break;
         }
