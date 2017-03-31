@@ -18,9 +18,48 @@ import CoreGraphics
             }
         }
     }
+    private var alternatePaths = [UIBezierPath]()
+    private var originalPaths = [UIBezierPath]()
     private var pathToUse: Int?
-    func addPath(_ input: UIBezierPath){
+    func addPath(_ input: UIBezierPath, withAlternate alternate: UIBezierPath){
         paths.append(input)
+        originalPaths.append(input)
+        alternatePaths.append(alternate)
+    }
+    
+    func swipe(_ recognizer: UISwipeGestureRecognizer){
+        guard let pathIndex = pathToUse else{
+            return
+        }
+        switch recognizer.direction {
+        case UISwipeGestureRecognizerDirection.up: // stretch vertically
+            paths[pathIndex] = alternatePaths[pathIndex]
+        case UISwipeGestureRecognizerDirection.down: // compress vertically
+            paths[pathIndex] = originalPaths[pathIndex]
+        case UISwipeGestureRecognizerDirection.right:
+            let animatingOptions: UIViewAnimationOptions = UIViewAnimationOptions()
+            UIView.transition(with: self, duration: 0.25, options: animatingOptions, animations: { 
+                let transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
+                self.transform = transform
+            }, completion: { (succcess) in
+                UIView.transition(with: self, duration: 0.25, options: animatingOptions, animations: {
+                    let defaultTransform = CGAffineTransform(rotationAngle: 0)
+                    self.transform = defaultTransform
+                }, completion: nil)
+            })
+        default:
+            let animatingOptions: UIViewAnimationOptions = UIViewAnimationOptions()
+            UIView.transition(with: self, duration: 0.25, options: animatingOptions, animations: {
+                let transform = CGAffineTransform(translationX: -25, y: 0)
+                self.transform = transform
+            }, completion: { (succcess) in
+                UIView.transition(with: self, duration: 0.25, options: animatingOptions, animations: {
+                    let defaultTransform = CGAffineTransform(translationX: 0, y: 0)
+                    self.transform = defaultTransform
+                }, completion: nil)
+            })
+        }
+        setNeedsDisplay()
     }
     
     func nextPath(){
@@ -39,6 +78,12 @@ import CoreGraphics
         path1.addLine(to: CGPoint(x: (bounds.maxX * 2/3), y:((bounds.maxY/2) - 20)))
         path1.close()
         
+        let path1alt = UIBezierPath()
+        path1alt.move(to: center)
+        path1alt.addLine(to: CGPoint(x: (bounds.maxX/3), y:(bounds.maxY/2 - 50)))
+        path1alt.addLine(to: CGPoint(x: (bounds.maxX * 2/3), y:((bounds.maxY/2) - 50)))
+        path1alt.close()
+        
         let path2 = UIBezierPath()
         path2.move(to: CGPoint(x: (bounds.maxX / 3), y: (bounds.maxY/2 - 20)))
         path2.addLine(to: CGPoint(x: (bounds.maxX * 2 / 3), y: (bounds.maxY/2 - 20)))
@@ -46,7 +91,16 @@ import CoreGraphics
         path2.addLine(to: CGPoint(x: (bounds.maxX / 3), y: (bounds.maxY/2 + 20)))
         path2.close()
         
+        let path2alt = UIBezierPath()
+        path2alt.move(to: CGPoint(x: (bounds.maxX / 3), y: (bounds.maxY/2 - 50)))
+        path2alt.addLine(to: CGPoint(x: (bounds.maxX * 2 / 3), y: (bounds.maxY/2 - 50)))
+        path2alt.addLine(to: CGPoint(x: (bounds.maxX * 2 / 3), y: (bounds.maxY/2 + 20)))
+        path2alt.addLine(to: CGPoint(x: (bounds.maxX / 3), y: (bounds.maxY/2 + 20)))
+        path2alt.close()
+        
         paths = [path1, path2]
+        originalPaths = [path1, path2]
+        alternatePaths = [path1alt, path2alt]
         pathToUse = 0
         
     }
