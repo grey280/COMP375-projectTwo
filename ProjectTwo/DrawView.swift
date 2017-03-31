@@ -72,8 +72,8 @@ import CoreGraphics
         path2.close()
         
         let path2alt = UIBezierPath()
-        path2alt.move(to: CGPoint(x: (bounds.maxX / 3), y: (bounds.maxY/2 - 20)))
-        path2alt.addLine(to: CGPoint(x: (bounds.maxX * 2 / 3), y: (bounds.maxY/2 - 20)))
+        path2alt.move(to: CGPoint(x: (bounds.maxX / 3), y: (bounds.maxY/2 - 50)))
+        path2alt.addLine(to: CGPoint(x: (bounds.maxX * 2 / 3), y: (bounds.maxY/2 - 50)))
         path2alt.addLine(to: CGPoint(x: (bounds.maxX * 2 / 3), y: (bounds.maxY/2 + 20)))
         path2alt.addLine(to: CGPoint(x: (bounds.maxX / 3), y: (bounds.maxY/2 + 20)))
         path2alt.close()

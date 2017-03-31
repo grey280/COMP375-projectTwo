@@ -33,7 +33,10 @@ class SwipingGraphViewController: UIViewController {
             amountToUse = dataSet.count - Int(dataSet.count/10)
         }
         let newDataSet = Array(dataSet[amountToUse..<dataSet.count])
-        graph.dataSet = newDataSet
+        let transitionOptions: UIViewAnimationOptions = [.transitionCrossDissolve, .showHideTransitionViews]
+        UIView.transition(with: graph, duration: 0.25, options: transitionOptions, animations: {
+            self.graph.dataSet = newDataSet
+        }, completion: nil)
     }
     func resetDataSet(){
         graph.dataSet = dataSet
