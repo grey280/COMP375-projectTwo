@@ -18,9 +18,25 @@ import CoreGraphics
             }
         }
     }
+    private var alternatePaths = [UIBezierPath]()
+    private var originalPaths = [UIBezierPath]()
     private var pathToUse: Int?
-    func addPath(_ input: UIBezierPath){
+    func addPath(_ input: UIBezierPath, withAlternate alternate: UIBezierPath){
         paths.append(input)
+        originalPaths.append(input)
+        alternatePaths.append(alternate)
+    }
+    
+    func swipe(_ recognizer: UISwipeGestureRecognizer){
+        switch recognizer.direction {
+        case .up: // stretch vertically
+            paths[pathIndex] = alternatePaths[pathIndex]
+        case .down: // compress vertically
+            paths[pathIndex] = originalPaths[pathIndex]
+        default:
+            break;
+        }
+        setNeedsDisplay()
     }
     
     func nextPath(){
@@ -39,6 +55,12 @@ import CoreGraphics
         path1.addLine(to: CGPoint(x: (bounds.maxX * 2/3), y:((bounds.maxY/2) - 20)))
         path1.close()
         
+        let path1alt = UIBezierPath()
+        path1alt.move(to: center)
+        path1alt.addLine(to: CGPoint(x: (bounds.maxX/3), y:(bounds.maxY/2 - 50)))
+        path1alt.addLine(to: CGPoint(x: (bounds.maxX * 2/3), y:((bounds.maxY/2) - 50)))
+        path1alt.close()
+        
         let path2 = UIBezierPath()
         path2.move(to: CGPoint(x: (bounds.maxX / 3), y: (bounds.maxY/2 - 20)))
         path2.addLine(to: CGPoint(x: (bounds.maxX * 2 / 3), y: (bounds.maxY/2 - 20)))
@@ -46,7 +68,16 @@ import CoreGraphics
         path2.addLine(to: CGPoint(x: (bounds.maxX / 3), y: (bounds.maxY/2 + 20)))
         path2.close()
         
+        let path2alt = UIBezierPath()
+        path2alt.move(to: CGPoint(x: (bounds.maxX / 3), y: (bounds.maxY/2 - 20)))
+        path2alt.addLine(to: CGPoint(x: (bounds.maxX * 2 / 3), y: (bounds.maxY/2 - 20)))
+        path2alt.addLine(to: CGPoint(x: (bounds.maxX * 2 / 3), y: (bounds.maxY/2 + 20)))
+        path2alt.addLine(to: CGPoint(x: (bounds.maxX / 3), y: (bounds.maxY/2 + 20)))
+        path2alt.close()
+        
         paths = [path1, path2]
+        originalPaths = [path1, path2]
+        alternatePaths = [path1alt, path2alt]
         pathToUse = 0
         
     }
