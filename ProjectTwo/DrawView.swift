@@ -28,10 +28,13 @@ import CoreGraphics
     }
     
     func swipe(_ recognizer: UISwipeGestureRecognizer){
+        guard let pathIndex = pathToUse else{
+            return
+        }
         switch recognizer.direction {
-        case .up: // stretch vertically
+        case UISwipeGestureRecognizerDirection.up: // stretch vertically
             paths[pathIndex] = alternatePaths[pathIndex]
-        case .down: // compress vertically
+        case UISwipeGestureRecognizerDirection.down: // compress vertically
             paths[pathIndex] = originalPaths[pathIndex]
         default:
             break;

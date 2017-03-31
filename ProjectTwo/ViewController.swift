@@ -15,8 +15,12 @@ class ViewController: UIViewController {
         let tapRecognizer = UITapGestureRecognizer(target: draw, action: #selector(draw.nextPath))
         draw.addGestureRecognizer(tapRecognizer)
         
-        let swipeRecognizer = UISwipeGestureRecognizer(target: draw, action: #selector(draw.swipe(_:)))
-        draw.addGestureRecognizer(swipeRecognizer)
+        let upSwipeRecognizer = UISwipeGestureRecognizer(target: draw, action: #selector(draw.swipe(_:)))
+        upSwipeRecognizer.direction = .up
+        let downSwipeRecognizer = UISwipeGestureRecognizer(target: draw, action: #selector(draw.swipe(_:)))
+        downSwipeRecognizer.direction = .down
+        draw.addGestureRecognizer(upSwipeRecognizer)
+        draw.addGestureRecognizer(downSwipeRecognizer)
         
         draw.defaultPaths()
         
