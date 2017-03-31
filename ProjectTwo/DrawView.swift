@@ -48,7 +48,16 @@ import CoreGraphics
                 }, completion: nil)
             })
         default:
-            break;
+            let animatingOptions: UIViewAnimationOptions = UIViewAnimationOptions()
+            UIView.transition(with: self, duration: 0.25, options: animatingOptions, animations: {
+                let transform = CGAffineTransform(translationX: -25, y: 0)
+                self.transform = transform
+            }, completion: { (succcess) in
+                UIView.transition(with: self, duration: 0.25, options: animatingOptions, animations: {
+                    let defaultTransform = CGAffineTransform(translationX: 0, y: 0)
+                    self.transform = defaultTransform
+                }, completion: nil)
+            })
         }
         setNeedsDisplay()
     }
